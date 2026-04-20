@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;400;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
+
+@theme {
+  /* Brand / Primary */
+  --color-primary: #b24a03;          /* burnt orange main CTA */
+  --color-primary-hover: #963d02;
+  --color-primary-light: #d1885a;
+  --color-primary-soft: #f4d9c7;
+
+  /* Secondary / Accent */
+  --color-secondary: #4d6a5f;        /* muted forest green */
+  --color-secondary-hover: #3f584f;
+  --color-secondary-light: #d7e3dd;
+
+  /* Neutral Palette */
+  --color-bg: #f7f5f2;               /* app background */
+  --color-surface: #ffffff;          /* cards / panels */
+  --color-surface-alt: #f1ece7;      /* soft sections */
+  --color-border: #e6ddd5;
+
+  /* Text */
+  --color-text: #1f1f1f;             /* main text */
+  --color-text-muted: #6f6f6f;       /* secondary text */
+  --color-text-soft: #9b9b9b;        /* placeholder text */
+  --color-text-inverse: #ffffff;
+
+  /* Utility */
+  --color-success: #8bb39c;
+  --color-warning: #d28c5a;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+
+  /* Optional Color Swatches (seen in palette cards) */
+  --color-sky-blue: #a9d8f3;
+  --color-peach: #edd3bb;
+  --color-terracotta: #b24a03;
+  --color-leaf-green: #4d6a5f;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+ /* Primary Font System */
+  --font-title: "Bricolage Grotesque", sans-serif;
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-button: "Montserrat", sans-serif;
+  --font-ui: "Inter", sans-serif;
+
+  /* Optional Alternate Font */
+  --font-accent: "Sora", sans-serif;
+/* 
+
+   
+
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.03em;
+}
+
+@layer utilities {
+  .font-title {
+    font-family: var(--font-title);
+  }
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+  .font-button {
+    font-family: var(--font-button);
+  }
+  .font-ui {
+    font-family: var(--font-ui);
+  }
+  .font-accent {
+    font-family: var(--font-accent);
+  }
+}
+
+/* Welcome Screen Background Elements */
+.bg-gradient-blob {
+  position: absolute;
+  top: -5rem;
+  right: -5rem;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  filter: blur(80px);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pillars-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0 2.5rem;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pillar {
+  width: 3rem;
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+}
+
+.pillar-left {
+  height: 120px;
+  background-color: #cbe0ea;
+}
+
+.pillar-middle {
+  height: 180px;
+  background-color: #ebd5c9;
+  margin-bottom: -50px;
+  z-index: -1;
+}
+
+.pillar-right {
+  height: 150px;
+  background-color: #ccd7cd;
+}
