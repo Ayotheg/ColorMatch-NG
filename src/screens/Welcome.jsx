@@ -37,7 +37,7 @@ export default function Welcome() {
             <div className="bg-primary w-full h-30 sm:h-24 md:h-38 rounded-2xl shadow-inner"></div>
             <h4 className="font-button text-[9px] sm:text-[10px] md:text-xs text-center text-gray-500 font-semibold tracking-wider uppercase mb-1 drop-shadow-sm">CLAY EARTH</h4>
           </div>
-          <div className="ml-40 mt-[-50px]">
+          <div className="ml-auto mt-[-50px]">
             <div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg transition-all p-2.5 md:p-3 flex flex-col justify-between mt-8 sm:mt-12 md:mt-16 transform rotate-3 hover:rotate-0 hover:-translate-y-2 cursor-pointer border border-gray-100">
               <div className="bg-[#4d6a5f] w-full h-30 sm:h-24 md:h-38 rounded-2xl shadow-inner"></div>
               <h4 className="font-button text-[9px] sm:text-[10px] md:text-xs text-center text-gray-500 font-semibold tracking-wider uppercase mb-1 drop-shadow-sm">SAVANNAH GREEN</h4>
