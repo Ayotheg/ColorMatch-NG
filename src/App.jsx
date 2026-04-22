@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Layout from './Layout';
+import { NavbarProvider } from './context/NavbarContext';
 import Welcome from './screens/Welcome';
 import Loading from './screens/Loading';
 import Results from './screens/Results';
@@ -29,6 +30,7 @@ function App() {
 
       {/* Main App Container (Visible only on screens smaller than Desktop/lg) */}
       <div className="w-full max-w-2xl min-h-screen bg-bg lg:hidden shadow-2xl relative overflow-x-hidden flex flex-col mx-auto">
+        <NavbarProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -46,6 +48,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        </NavbarProvider>
       </div>
     </div>
   );

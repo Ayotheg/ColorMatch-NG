@@ -1,8 +1,28 @@
+import { useEffect } from "react";
 import "../index.css";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import Button from "../components/Button";
+import { useNavbar } from "../context/NavbarContext";
+import { Menu } from "lucide-react";
 
 export default function Welcome() {
+  const { setNavbar } = useNavbar();
+
+  useEffect(() => {
+    setNavbar({
+      left: (
+        <div className="flex items-center gap-1">
+          <span className="font-title font-bold text-primary text-sm tracking-tight">ColorMatch</span>
+          <span className="font-title font-bold text-primary text-sm tracking-tight">NG</span>
+        </div>
+      ),
+      right: (
+        <button className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 hover:bg-gray-50 transition-colors">
+          <Menu size={20} className="text-gray-700" />
+        </button>
+      ),
+    });
+  }, [setNavbar]);
+
   return (
     <div className="flex-1 flex flex-col relative overflow-hidden h-[calc(100vh-100px)]">
       {/* Background Elements */}
@@ -47,7 +67,9 @@ export default function Welcome() {
       </div>
       
 
-    
+      {/* Fixed CTA at bottom */}
+      <Button to="/step1-room" label="Match my Color" fixed />
+
     </div>
   );
 }

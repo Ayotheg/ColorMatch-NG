@@ -1,15 +1,19 @@
 import { Outlet } from "react-router-dom";
-import NavBar from "./components/Navbar"; 
+import NavBar from "./components/Navbar";
 import ProgressBar from "./components/ProgressBar";
-import Button from "./components/Button";
+import { useNavbar } from "./context/NavbarContext";
+
 
 function Layout() {
+  const { navbarProps } = useNavbar();
+
   return (
     <>
-      <NavBar />
+      <NavBar {...navbarProps} />
+
+
       <main className="flex-1 relative pb-24">
         <ProgressBar />
-        <Button />
         <Outlet />
       </main>
     </>
