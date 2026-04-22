@@ -37,7 +37,6 @@ function App() {
               <Route index element={<Welcome />} />
               <Route path="loading" element={<Loading />} />
               <Route path="results" element={<Results />} />
-              <Route path="room-type" element={<RoomType />} />
               <Route path="step1-room" element={<Step1Room />} />
               <Route path="step2-who-is-it" element={<Step2WhoIsIt />} />
               <Route path="step3-color-in-mind" element={<Step3ColorInMind />} />
