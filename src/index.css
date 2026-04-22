@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;400;600;700;800&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
 @theme {
   /* Brand / Primary */
@@ -136,4 +136,114 @@
 .pillar-right {
   height: 150px;
   background-color: #ccd7cd;
+}
+
+/* ─── Progress Bar ─── */
+
+.progress-bar-wrapper {
+  padding: 12px 24px 8px;
+  position: relative;
+  z-index: 10;
+}
+
+.progress-bar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.progress-step-indicator {
+  font-family: var(--font-button);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  padding: 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.progress-step-divider {
+  color: var(--color-primary-light);
+  margin: 0 1px;
+  font-weight: 400;
+}
+
+.progress-step-total {
+  color: var(--color-primary-light);
+  font-weight: 500;
+}
+
+.progress-step-label {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+
+/* Segmented track */
+.progress-bar-track {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  align-items: center;
+}
+
+.progress-bar-segment {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-border);
+  overflow: hidden;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.segment-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Completed segments - solid primary */
+.segment-completed .segment-fill {
+  background: var(--color-primary);
+  width: 100% !important;
+}
+
+/* Active segment - animated gradient */
+.segment-active {
+  background: var(--color-primary-soft);
+}
+
+.segment-active .segment-fill {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-primary-light) 100%
+  );
+  animation: pulse-segment 2s ease-in-out infinite;
+}
+
+/* Upcoming segments */
+.segment-upcoming {
+  background: var(--color-border);
+}
+
+.segment-upcoming .segment-fill {
+  background: transparent;
+}
+
+@keyframes pulse-segment {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
 }
