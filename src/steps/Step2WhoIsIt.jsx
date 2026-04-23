@@ -40,6 +40,7 @@ export default function Step2WhoIsIt() {
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
         <h1 className="text-4xl font-bold font-button"> Who is this room for?</h1>
+        <p className="font-body text-base text-gray-500 py-4">We'll tailor your paint durability and finish recommendations based on the inhabitants.</p>
       </div>
       
       <Button to="/step3-color-in-mind" label="Continue" fixed />
