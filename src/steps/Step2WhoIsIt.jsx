@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import Button from "../components/Button";
+import Data from "../data/map";
 
-export default function Step2WhoIsIt() {
+function Step2WhoIsIt() {
   const { setNavbar } = useNavbar();
   const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState(null);
 
   useEffect(() => {
     setNavbar({
@@ -39,11 +41,51 @@ export default function Step2WhoIsIt() {
   return (
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
-        <h1 className="text-4xl font-bold font-button"> Who is this room for?</h1>
+        <h1 className="text-4xl font-bold font-button">Who is this room for?</h1>
         <p className="font-body text-base text-gray-500 py-4">We'll tailor your paint durability and finish recommendations based on the inhabitants.</p>
+        
+        <div className="space-y-3 mt-6">
+          {Data.map((item, index) => (
+            <Card 
+              key={index}
+              title={item.title}
+              body={item.body}
+              img={item.img}
+              isSelected={selectedType === index}
+              onSelect={() => setSelectedType(index)}
+            />
+          ))}
+        </div>
       </div>
       
       <Button to="/step3-color-in-mind" label="Continue" fixed />
     </div>
   );
 }
+
+function Card({title, body, img, isSelected, onSelect}) {
+  return (
+    <div 
+      onClick={onSelect}
+      className={`flex gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+        isSelected 
+          ? 'border-primary bg-blue-50' 
+          : 'border-gray-200 bg-white hover:border-gray-300'
+      }`}
+    >
+      <div className="shrink-0 w-24 h-24">
+        <img 
+          src={img} 
+          alt={title}
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
+      <div className="flex-1">
+        <h3 className="font-bold text-lg text-gray-800">{title}</h3>
+        <p className="text-sm text-gray-600 mt-1">{body}</p>
+      </div>
+    </div>
+  );
+}
+
+export default Step2WhoIsIt;
