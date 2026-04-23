@@ -39,7 +39,7 @@ export default function Step2WhoIsIt() {
   return (
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
-        <h1 className="text-2xl font-bold">Step 2: Who Is It</h1>
+        <h1 className="text-4xl font-bold font-button"> Who is this room for?</h1>
       </div>
       
       <Button to="/step3-color-in-mind" label="Continue" fixed />
