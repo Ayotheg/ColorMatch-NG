@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { CircleCheck  } from "lucide-react";
+
 import Button from "../components/Button";
 
 export default function Step3ColorInMind() {
@@ -39,7 +41,11 @@ export default function Step3ColorInMind() {
   return (
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
-        <h1 className="text-2xl font-bold">Step 3: Color In Mind</h1>
+        <h1 className="text-2xl font-bold">Do you have a color in mind already?</h1>
+      <p className="font-body text-base text-gray-500 py-4">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
+      <div className="color-card">
+        <h3 className="text-primary font-body font-medium">Yes, I have a favourite <span className="relative left-75 bottom-6" > <CircleCheck /></span> </h3>
+      </div>
       </div>
       
       <Button to="/step4-matching" label="Continue" fixed />
