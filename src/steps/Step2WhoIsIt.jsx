@@ -56,6 +56,19 @@ function Step2WhoIsIt() {
             />
           ))}
         </div>
+
+
+        <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100">
+        <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
+          <Sparkles size={22} fill="currentColor" />
+        </div>
+        <div className="flex-1">
+          <h4 className="font-bold text-gray-800 text-sm">No - let the app decide</h4>
+          <p className="text-gray-500 text-xs">Generate a custom palette based on your vibe</p>
+        </div>
+        <ChevronRight size={20} className="text-gray-400" />
+      </div>
+      
       </div>
       
       <Button to="/step3-color-in-mind" label="Continue" fixed />

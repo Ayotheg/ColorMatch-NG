@@ -53,14 +53,14 @@ export default function Step3ColorInMind() {
           <div className="bg-sky-400 aspect-square rounded-xl w-full"></div>
           <div>
             <h4 className="font-semibold text-sm">Sky Blue</h4>
-            <p className="text-gray-400 text-xs">NG-204</p>
+            <p className="text-gray-400 text-xs">7082</p>
           </div>
         </div>
         <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-primary/20 ring-1 ring-primary/10 relative">
           <div className="bg-primary aspect-square rounded-xl w-full"></div>
           <div>
-            <h4 className="font-semibold text-sm">Terracotta</h4>
-            <p className="text-gray-400 text-xs">NG-812</p>
+            <h4 className="font-semibold text-sm">Rich Brown</h4>
+            <p className="text-gray-400 text-xs">3044</p>
           </div>
           <div className="absolute bottom-3 right-3">
             <div className="bg-primary rounded-full p-0.5">
@@ -69,17 +69,17 @@ export default function Step3ColorInMind() {
           </div>
         </div>
         <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
-          <div className="bg-peach aspect-square rounded-xl w-full"></div>
+          <div className="bg-rose-300 aspect-square rounded-xl w-full"></div>
           <div>
-            <h4 className="font-semibold text-sm">Peach</h4>
-            <p className="text-gray-400 text-xs">NG-105</p>
+            <h4 className="font-semibold text-sm">Rose</h4>
+            <p className="text-gray-400 text-xs">1021</p>
           </div>
         </div>
         <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
-          <div className="bg-secondary aspect-square rounded-xl w-full"></div>
+          <div className="bg-green-500 aspect-square rounded-xl w-full"></div>
           <div>
             <h4 className="font-semibold text-sm">Leaf Green</h4>
-            <p className="text-gray-400 text-xs">NG-442</p>
+            <p className="text-gray-400 text-xs">6071</p>
           </div>
         </div>
       </div>
