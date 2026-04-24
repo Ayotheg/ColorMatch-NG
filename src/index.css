@@ -349,3 +349,29 @@
   
 }
 
+.separator-or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0;
+  color: #9ca3af;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.separator-or::before,
+.separator-or::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.separator-or:not(:empty)::before {
+  margin-right: 1.25rem;
+}
+
+.separator-or:not(:empty)::after {
+  margin-left: 1.25rem;
+}

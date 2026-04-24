@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { CircleCheck  } from "lucide-react";
+import { ArrowLeft, CircleCheck, Sparkles, ChevronRight } from "lucide-react";
 
+import "../index.css"
 import Button from "../components/Button";
 
 export default function Step3ColorInMind() {
@@ -43,15 +43,60 @@ export default function Step3ColorInMind() {
       <div className="flex-1">
         <h1 className="text-2xl font-bold">Do you have a color in mind already?</h1>
       <p className="font-body text-base text-gray-500 py-4">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
-      <div className="color-card">
-        <h3 className="text-primary font-body font-medium">Yes, I have a favourite <span className="relative left-75 bottom-6" > <CircleCheck /></span> </h3>
+      <div className="flex items-center justify-between mt-6 mb-4">
+        <h3 className="text-primary font-body font-semibold">Yes, I have a favorite</h3>
+        <CircleCheck className="text-primary w-5 h-5" />
       </div>
-            <div className="grid grid-cols-2 gap-5 ">
-<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-primary w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Rich Brown <p className="text-gray-500 font-body pb-5 text-sm">3044</p></h4></div>
-<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-sky-400 w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Sky Blue <p className="text-gray-500 font-body pb-5 text-sm">7082</p></h4></div>
-<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-green-500 w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Leaf Green <p className="text-gray-500 font-body pb-5 text-sm">6071</p></h4></div>
-<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-rose-300 w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Rose <p className="text-gray-500 font-body pb-5 text-sm">1021</p></h4></div>
-</div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
+          <div className="bg-sky-400 aspect-square rounded-xl w-full"></div>
+          <div>
+            <h4 className="font-semibold text-sm">Sky Blue</h4>
+            <p className="text-gray-400 text-xs">NG-204</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-primary/20 ring-1 ring-primary/10 relative">
+          <div className="bg-primary aspect-square rounded-xl w-full"></div>
+          <div>
+            <h4 className="font-semibold text-sm">Terracotta</h4>
+            <p className="text-gray-400 text-xs">NG-812</p>
+          </div>
+          <div className="absolute bottom-3 right-3">
+            <div className="bg-primary rounded-full p-0.5">
+              <CircleCheck className="text-white w-3 h-3" />
+            </div>
+          </div>
+        </div>
+        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
+          <div className="bg-peach aspect-square rounded-xl w-full"></div>
+          <div>
+            <h4 className="font-semibold text-sm">Peach</h4>
+            <p className="text-gray-400 text-xs">NG-105</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
+          <div className="bg-secondary aspect-square rounded-xl w-full"></div>
+          <div>
+            <h4 className="font-semibold text-sm">Leaf Green</h4>
+            <p className="text-gray-400 text-xs">NG-442</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="separator-or">OR</div>
+
+      <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100">
+        <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
+          <Sparkles size={22} fill="currentColor" />
+        </div>
+        <div className="flex-1">
+          <h4 className="font-bold text-gray-800 text-sm">No - let the app decide</h4>
+          <p className="text-gray-500 text-xs">Generate a custom palette based on your vibe</p>
+        </div>
+        <ChevronRight size={20} className="text-gray-400" />
+      </div>
+
       </div>
       
       <Button to="/step4-matching" label="Continue" fixed />
