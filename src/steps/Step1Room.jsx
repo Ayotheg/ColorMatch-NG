@@ -49,7 +49,7 @@ export default function Step1Room() {
         <h1 className="text-2xl font-bold font-title text-4xl">What are you <br /> <span className="text-primary gap-3 ">painting?</span></h1>
       </div>
       
-     <div class="grid grid-cols-2 gap-5 ">
+     <div className="grid grid-cols-2 gap-5 ">
 <div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="icons text-amber-950"><BedDouble /> </div><h4>Bedroom</h4></div>
 <div className="bg-slate-100 w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="icons icon text-green-800"><Sofa /> </div><h4>Living Room</h4></div>
 <div className="bg-slate-100 w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="icons icon-2 text-blue-600"><CookingPot /> </div><h4>Kitchen</h4></div>

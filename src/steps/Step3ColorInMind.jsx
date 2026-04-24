@@ -46,6 +46,12 @@ export default function Step3ColorInMind() {
       <div className="color-card">
         <h3 className="text-primary font-body font-medium">Yes, I have a favourite <span className="relative left-75 bottom-6" > <CircleCheck /></span> </h3>
       </div>
+            <div className="grid grid-cols-2 gap-5 ">
+<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-primary w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Rich Brown <p className="text-gray-500 font-body pb-5 text-sm">3044</p></h4></div>
+<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-sky-400 w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Sky Blue <p className="text-gray-500 font-body pb-5 text-sm">7082</p></h4></div>
+<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-green-500 w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Leaf Green <p className="text-gray-500 font-body pb-5 text-sm">6071</p></h4></div>
+<div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md  p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="bg-rose-300 w-35 h-25 sm:h-24 md:h-38 rounded-2xl"></div><h4 className="px-1 text-sm">Rose <p className="text-gray-500 font-body pb-5 text-sm">1021</p></h4></div>
+</div>
       </div>
       
       <Button to="/step4-matching" label="Continue" fixed />
