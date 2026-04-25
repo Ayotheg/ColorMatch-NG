@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { Sparkles, ChevronRight, Info } from "lucide-react";
 import Button from "../components/Button";
 import Data from "../data/map";
+
 
 function Step2WhoIsIt() {
   const { setNavbar } = useNavbar();
@@ -60,11 +62,13 @@ function Step2WhoIsIt() {
 
         <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100">
         <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
-          <Sparkles size={22} fill="currentColor" />
+          <Info size={22}  />
+
         </div>
         <div className="flex-1">
-          <h4 className="font-bold text-gray-800 text-sm">No - let the app decide</h4>
-          <p className="text-gray-500 text-xs">Generate a custom palette based on your vibe</p>
+          
+          <h4 className="font-bold text-gray-800 text-sm"></h4>
+          <p className="text-gray-500 text-xs">Choosing the right inhabitant helps us calculate the paint needed for your specific project</p>
         </div>
         <ChevronRight size={20} className="text-gray-400" />
       </div>
