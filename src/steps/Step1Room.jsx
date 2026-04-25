@@ -8,6 +8,7 @@ import {Sofa} from "lucide-react";
 import {CookingPot} from "lucide-react";
 import {Bath } from "lucide-react";
 import {Building2 } from "lucide-react";
+import {Trees } from "lucide-react";
 
 import "../index.css";
 
@@ -54,8 +55,8 @@ export default function Step1Room() {
 <div className="bg-slate-100 w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="icons icon text-green-800"><Sofa /> </div><h4>Living Room</h4></div>
 <div className="bg-slate-100 w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="icons icon-2 text-blue-600"><CookingPot /> </div><h4>Kitchen</h4></div>
 <div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover"> <div className="icons text-amber-950"><Bath /> </div><h4>Bathroom</h4></div>
-<div className="bg-white w-87 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover-column"> <div className="icons-column"><Building2 /> </div><span className="mt-[-18px] ps-16 group"><h4>Office/ School</h4><p>Professional Workspaces</p></span></div>
-
+<div className="col-span-2 bg-white w-87 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover-column"> <div className="icons-column"><Building2 /> </div><span className="mt-[-18px] ps-16 group"><h4>Office/ School</h4><p>Professional Workspaces</p></span></div>
+<div className="col-span-2 h-42 sm:h-36 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border border-gray-100 icons-cover-column relative overflow-hidden" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=300&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center'}}> <div className="absolute inset-0 bg-black/30"></div><div className="relative z-10 top-13"><span className="text-white"><h4>Exterior</h4><p>Outdoor Spaces</p></span></div></div>
 
 
      </div>
