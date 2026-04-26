@@ -41,7 +41,7 @@ export default function Step3ColorInMind() {
   return (
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
-        <h1 className="text-2xl font-bold">Do you have a color in mind already?</h1>
+        <h1 className="text-3xl font-bold">Do you have a color in mind already?</h1>
       <p className="font-body text-base text-gray-500 py-4">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
       <div className="flex items-center justify-between mt-6 mb-4">
         <h3 className="text-primary font-body font-semibold">Yes, I have a favorite</h3>

@@ -35,7 +35,9 @@ export default function Step4Matching() {
   return (
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
-        <h1 className="text-2xl font-bold">Step 4: Matching</h1>
+        <h1 className="text-5xl font-heading font-semibold px-1">What type of <br /> <span className="text-primary font-title">paint finish</span> do <br /> you want ?</h1>
+      <p className="text-gray-500 text-base py-4 px-2">Choose the texture and sheen that bests <br />
+         fits your environment and lifestyle</p>
       </div>
       
       <Button to="/step5-paint-type" label="Continue" fixed />
