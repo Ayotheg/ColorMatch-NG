@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Share } from "lucide-react";
+import { ArrowLeft, Share, Circle } from "lucide-react";
 import Button from "../components/Button";
 
 export default function Step4Matching() {
@@ -39,6 +39,47 @@ export default function Step4Matching() {
       <p className="text-gray-500 text-base py-4 px-2">Choose the texture and sheen that bests <br />
          fits your environment and lifestyle</p>
       </div>
+
+      <div className="card py-5">
+      <div className="button-list bg-white px-5 py-2  leading-6 font-button rounded-4xl text-left ">
+        <div className="select block align-left relative bottom-2">
+           <span className="text-primary relative left-72 top-5"><Circle /></span>
+              <h1 className="font-bold mb-1 text-xl">Emulsion </h1>
+                <h2 className="font-medium font-heading">Standard/Matte Finish</h2>
+                   <p className="font-body text-gray-500 text-sm mb-2 mt-1">Perfect for living rooms and bedrooms. <br /> Hides walls imperfection beautifully</p>
+                    </div>
+                       </div>
+                        </div>
+      <div className="card-2 py-5 px-2">
+      <div className="button-list bg-gray-200 px-5 py-2  leading-6 font-button rounded-4xl text-left ">
+        <div className="select block align-left relative bottom-2">
+           <span className="text-primary relative left-72 top-5"><Circle /></span>
+              <h1 className="font-bold mb-1 text-xl">Emulsion </h1>
+                <h2 className="font-medium font-heading">Standard/Matte Finish</h2>
+                   <p className="font-body text-gray-500 text-sm mb-2 mt-1">Perfect for living rooms and bedrooms. <br /> Hides walls imperfection beautifully</p>
+                </div>
+                   </div>
+                     </div>
+      <div className="card-3 py-5">
+      <div className="button-list bg-white px-5 py-2  leading-6 font-button rounded-4xl text-left ">
+        <div className="select block align-left relative bottom-2">
+           <span className="text-primary relative left-72 top-5"><Circle /></span>
+              <h1 className="font-bold mb-1 text-xl">Emulsion </h1>
+                <h2 className="font-medium font-heading">Standard/Matte Finish</h2>
+                   <p className="font-body text-gray-500 text-sm mb-2 mt-1">Perfect for living rooms and bedrooms. <br /> Hides walls imperfection beautifully</p>
+                    </div>
+                       </div>
+                          </div>
+              <div className="card-4 py-5">
+              <div className="button-list bg-white px-5 py-2  leading-6 font-button rounded-4xl text-left ">
+                <div className="select block align-left relative bottom-2">
+                  <span className="text-primary relative left-72 top-5"><Circle /></span>
+                      <h1 className="font-bold mb-1 text-xl">Emulsion </h1>
+                        <h2 className="font-medium font-heading">Standard/Matte Finish</h2>
+                          <p className="font-body text-gray-500 text-sm mb-2 mt-1">Perfect for living rooms and bedrooms. <br /> Hides walls imperfection beautifully</p>
+                           </div>
+                               </div>
+                                  </div>
       
       <Button to="/step5-paint-type" label="Continue" fixed />
     </div>
