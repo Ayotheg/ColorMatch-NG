@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Circle, Sparkle, LayoutGrid, Sparkles, Waves } from "lucide-react";
+import { ArrowLeft, Check, Sparkle, LayoutGrid, Sparkles, Waves } from "lucide-react";
 import Button from "../components/Button";
 import { useQuiz } from "../context/QuizContext";
 
@@ -80,42 +80,62 @@ export default function Step5PaintType() {
   }, [setNavbar, navigate]);
 
   return (
-    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
-      <div className="flex-1">
-        <h1 className="text-5xl font-heading font-semibold px-1 leading-tight">
+    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32 overflow-x-hidden">
+      <div className="flex-1 animate-in fade-in slide-in-from-left-8 duration-700">
+        <h1 className="text-5xl font-heading font-semibold px-1 leading-tight text-text">
           What type of <br /> 
           <span className="text-primary font-title">paint finish</span> do <br /> 
           you want?
         </h1>
-        <p className="text-gray-500 text-base py-4 px-2">
+        <p className="text-gray-500 text-base py-4 px-2 font-body">
           Choose the texture and sheen that best <br />
           fits your environment and lifestyle
         </p>
       </div>
 
-      <div className="space-y-6 mt-4">
-        {paintTypes.map((type) => (
+      <div className="space-y-5 mt-4">
+        {paintTypes.map((type, index) => (
           <div 
             key={type.id}
             onClick={() => setAnswer("paintType", type.id)}
-            className={`cursor-pointer transition-all ${type.bgColor} px-5 py-4 leading-6 font-button rounded-[32px] border-2 ${selectedPaintType === type.id ? "border-primary shadow-md" : "border-transparent"}`}
+            className={`cursor-pointer transition-all duration-500 transform ${type.bgColor} px-6 py-5 leading-6 font-button rounded-[32px] border-2 group relative overflow-hidden ${
+              selectedPaintType === type.id 
+                ? "border-primary shadow-xl scale-[1.02] -translate-y-1" 
+                : "border-transparent hover:border-primary/20 hover:scale-[1.01] shadow-sm hover:shadow-md"
+            } animate-in fade-in slide-in-from-bottom-12 duration-700`}
+            style={{ animationDelay: `${index * 100}ms` }}
           >
-            <div className="flex flex-col relative">
-              <span className={`absolute right-0 top-1 ${selectedPaintType === type.id ? "text-primary" : "text-gray-300"}`}>
-                <Circle fill={selectedPaintType === type.id ? "currentColor" : "none"} />
-              </span>
-              <h1 className="font-bold mb-1 text-xl flex gap-2 items-center"> 
-                <span className={type.color}>{type.icon}</span>
+            {/* Background Glow Effect */}
+            <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-white/0 via-white/5 to-white/20`} />
+            
+            <div className="flex flex-col relative z-10">
+              <div className="flex items-center justify-between mb-2">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${selectedPaintType === type.id ? 'bg-primary text-white scale-110' : 'bg-white shadow-sm ' + type.color}`}>
+                  {type.icon}
+                </div>
+                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${selectedPaintType === type.id ? 'bg-primary border-primary rotate-0' : 'border-gray-200 rotate-90'}`}>
+                  {selectedPaintType === type.id && <Check size={14} className="text-white" strokeWidth={3} />}
+                </div>
+              </div>
+              
+              <h1 className="font-bold text-2xl font-title text-text mb-0.5"> 
                 {type.title}
               </h1>
-              <h2 className={`font-medium font-heading ${type.color}`}>{type.subtitle}</h2>
-              <p className="font-body text-gray-500 text-sm mt-1">{type.description}</p>
+              <h2 className={`font-semibold font-heading text-sm uppercase tracking-wider mb-2 ${type.color}`}>{type.subtitle}</h2>
+              <p className="font-body text-gray-500 text-[13px] leading-relaxed opacity-90">{type.description}</p>
             </div>
+
+            {/* Selection Indicator bar */}
+            <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all duration-500 ${selectedPaintType === type.id ? 'bg-primary' : 'bg-transparent'}`} />
           </div>
         ))}
       </div>
       
-      <Button to="/step6-concerns" label="Continue" fixed disabled={!selectedPaintType} />
+      <div className="sticky bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent pointer-events-none z-50 mt-auto">
+        <div className="max-w-2xl mx-auto pointer-events-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+          <Button to="/step6-concerns" label="Continue" disabled={!selectedPaintType} />
+        </div>
+      </div>
     </div>
   );
 }

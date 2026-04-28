@@ -45,102 +45,76 @@ export default function Step3ColorInMind() {
   }, [setNavbar, navigate]);
 
   return (
-    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
+    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32 overflow-x-hidden">
       <div className="flex-1">
-        <h1 className="text-3xl font-bold">Do you have a color in mind already?</h1>
-        <p className="font-body text-base text-gray-500 py-4">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
+        <div className="animate-in fade-in slide-in-from-left-6 duration-700">
+          <h1 className="text-3xl font-bold font-title text-text leading-tight">Do you have a <br /><span className="text-primary">color</span> in mind?</h1>
+          <p className="font-body text-base text-gray-500 py-4 leading-relaxed">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
+        </div>
         
-        <div className="flex items-center justify-between mt-6 mb-4">
-          <h3 className="text-primary font-body font-semibold">Yes, I have a favorite</h3>
+        <div className="flex items-center justify-between mt-6 mb-4 animate-in fade-in duration-1000 delay-300">
+          <h3 className="text-primary font-body font-bold text-sm uppercase tracking-wider">Yes, I have a favorite</h3>
           <CircleCheck className="text-primary w-5 h-5" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div 
-            onClick={() => {
-              setAnswer("hasColorInMind", true);
-              setAnswer("colorInMind", "Sky Blue");
-            }}
-            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Sky Blue" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
-          >
-            <div className="bg-sky-400 aspect-square rounded-xl w-full"></div>
-            <div>
-              <h4 className="font-semibold text-sm">Sky Blue</h4>
-              <p className="text-gray-400 text-xs">7082</p>
-            </div>
-          </div>
-
-          <div 
-            onClick={() => {
-              setAnswer("hasColorInMind", true);
-              setAnswer("colorInMind", "Rich Brown");
-            }}
-            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Rich Brown" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
-          >
-            <div className="bg-primary aspect-square rounded-xl w-full"></div>
-            <div>
-              <h4 className="font-semibold text-sm">Rich Brown</h4>
-              <p className="text-gray-400 text-xs">3044</p>
-            </div>
-            {selectedColor === "Rich Brown" && (
-              <div className="absolute bottom-3 right-3">
-                <div className="bg-primary rounded-full p-0.5">
-                  <CircleCheck className="text-white w-3 h-3" />
-                </div>
+          {[
+            { id: "Sky Blue", code: "7082", bg: "bg-sky-400" },
+            { id: "Rich Brown", code: "3044", bg: "bg-primary" },
+            { id: "Rose", code: "1021", bg: "bg-rose-300" },
+            { id: "Leaf Green", code: "6071", bg: "bg-green-500" }
+          ].map((item, index) => (
+            <div 
+              key={item.id}
+              onClick={() => {
+                setAnswer("hasColorInMind", true);
+                setAnswer("colorInMind", item.id);
+              }}
+              className={`bg-white rounded-[32px] shadow-sm p-4 flex flex-col gap-3 border-2 cursor-pointer transition-all duration-500 transform animate-in fade-in slide-in-from-bottom-8 ${
+                selectedColor === item.id 
+                  ? "border-primary shadow-xl scale-[1.05] -translate-y-1" 
+                  : "border-transparent hover:border-primary/20 hover:scale-[1.02]"
+              }`}
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className={`${item.bg} aspect-square rounded-2xl w-full shadow-inner`}></div>
+              <div className="px-1">
+                <h4 className={`font-bold text-sm transition-colors ${selectedColor === item.id ? 'text-text' : 'text-text-soft'}`}>{item.id}</h4>
+                <p className="text-text-muted text-[10px] font-bold tracking-widest">{item.code}</p>
               </div>
-            )}
-          </div>
-
-          <div 
-            onClick={() => {
-              setAnswer("hasColorInMind", true);
-              setAnswer("colorInMind", "Rose");
-            }}
-            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Rose" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
-          >
-            <div className="bg-rose-300 aspect-square rounded-xl w-full"></div>
-            <div>
-              <h4 className="font-semibold text-sm">Rose</h4>
-              <p className="text-gray-400 text-xs">1021</p>
             </div>
-          </div>
-
-          <div 
-            onClick={() => {
-              setAnswer("hasColorInMind", true);
-              setAnswer("colorInMind", "Leaf Green");
-            }}
-            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Leaf Green" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
-          >
-            <div className="bg-green-500 aspect-square rounded-xl w-full"></div>
-            <div>
-              <h4 className="font-semibold text-sm">Leaf Green</h4>
-              <p className="text-gray-400 text-xs">6071</p>
-            </div>
-          </div>
+          ))}
         </div>
 
-        <div className="separator-or">OR</div>
+        <div className="separator-or py-10 animate-in fade-in duration-1000 delay-500">OR</div>
 
         <div 
           onClick={() => {
             setAnswer("hasColorInMind", false);
             setAnswer("colorInMind", "No preference");
           }}
-          className={`bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border ${hasColorInMind === false ? "border-primary ring-2 ring-primary/20 bg-primary/5" : "border-gray-100"}`}
+          className={`rounded-[32px] p-6 flex items-center gap-5 cursor-pointer transition-all duration-500 transform animate-in fade-in slide-in-from-bottom-10 delay-700 ${
+            hasColorInMind === false 
+              ? "border-2 border-primary bg-white shadow-xl scale-[1.02] -translate-y-1" 
+              : "border-2 border-transparent bg-surface-alt/50 hover:bg-white hover:border-primary/20 hover:shadow-md"
+          }`}
         >
-          <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
-            <Sparkles size={22} fill="currentColor" />
+          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${hasColorInMind === false ? 'bg-primary text-white scale-110 rotate-12' : 'bg-[#c2f2d9] text-[#2d6a4f]'}`}>
+            <Sparkles size={24} fill={hasColorInMind === false ? "white" : "currentColor"} />
           </div>
           <div className="flex-1">
-            <h4 className="font-bold text-gray-800 text-sm">No - let the app decide</h4>
-            <p className="text-gray-500 text-xs">Generate a custom palette based on your vibe</p>
+            <h4 className={`font-bold text-lg leading-tight transition-colors ${hasColorInMind === false ? 'text-text' : 'text-text-soft'}`}>No - let the app decide</h4>
+            <p className="text-text-muted text-xs font-body mt-1">Generate a custom palette based on your vibe</p>
           </div>
           <ChevronRight size={20} className={hasColorInMind === false ? "text-primary" : "text-gray-400"} />
         </div>
       </div>
       
-      <Button to="/step4-matching" label="Continue" fixed disabled={hasColorInMind === null} />
+      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50">
+        <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-1000">
+          <Button to="/step4-matching" label="Continue" disabled={hasColorInMind === null} />
+        </div>
+      </div>
     </div>
   );
 }

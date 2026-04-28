@@ -45,38 +45,47 @@ function Step2WhoIsIt() {
   }, [setNavbar, navigate]);
 
   return (
-    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
+    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32 overflow-x-hidden">
       <div className="flex-1">
-        <h1 className="text-4xl font-bold font-button">Who is this room for?</h1>
-        <p className="font-body text-base text-gray-500 py-4">We'll tailor your paint durability and finish recommendations based on the inhabitants.</p>
+        <div className="animate-in fade-in slide-in-from-left-6 duration-700">
+          <h1 className="text-4xl font-bold font-title text-text">Who is this <br /><span className="text-primary font-title">room</span> for?</h1>
+          <p className="font-body text-base text-gray-500 py-4 leading-relaxed">We'll tailor your paint durability and finish recommendations based on the inhabitants.</p>
+        </div>
         
-        <div className="space-y-3 mt-6">
+        <div className="space-y-4 mt-2">
           {Data.map((item, index) => (
-            <Card 
-              key={index}
-              title={item.title}
-              body={item.body}
-              img={item.img}
-              isSelected={selectedWho === item.title}
-              onSelect={() => setAnswer("who", item.title)}
-            />
+            <div 
+              key={index} 
+              className="animate-in fade-in slide-in-from-bottom-10 duration-700" 
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
+              <Card 
+                title={item.title}
+                body={item.body}
+                img={item.img}
+                isSelected={selectedWho === item.title}
+                onSelect={() => setAnswer("who", item.title)}
+              />
+            </div>
           ))}
         </div>
 
-
-        <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100 mt-8">
-          <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
-            <Info size={22}  />
+        <div className="bg-surface-alt/50 rounded-3xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-all duration-300 border border-border mt-8 animate-in fade-in zoom-in-95 duration-1000 delay-700">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+            <Info size={22} />
           </div>
           <div className="flex-1">
-            <h4 className="font-bold text-gray-800 text-sm"></h4>
-            <p className="text-gray-500 text-xs">Choosing the right inhabitant helps us calculate the paint needed for your specific project</p>
+            <p className="text-text-muted text-xs leading-relaxed font-body">Choosing the right inhabitant helps us calculate the paint durability needed for your specific project.</p>
           </div>
           <ChevronRight size={20} className="text-gray-400" />
         </div>
       </div>
       
-      <Button to="/step3-color-in-mind" label="Continue" fixed disabled={!selectedWho} />
+      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50">
+        <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+          <Button to="/step3-color-in-mind" label="Continue" disabled={!selectedWho} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -85,22 +94,22 @@ function Card({title, body, img, isSelected, onSelect}) {
   return (
     <div 
       onClick={onSelect}
-      className={`flex gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+      className={`flex gap-4 p-4 rounded-[32px] border-2 cursor-pointer transition-all duration-500 transform ${
         isSelected 
-          ? 'border-primary bg-blue-50' 
-          : 'border-gray-200 bg-white hover:border-gray-300'
+          ? 'border-primary bg-white shadow-xl scale-[1.02] -translate-y-1' 
+          : 'border-transparent bg-surface-alt/50 hover:bg-white hover:border-primary/20 hover:shadow-md'
       }`}
     >
-      <div className="shrink-0 w-24 h-24">
+      <div className="shrink-0 w-24 h-24 overflow-hidden rounded-2xl">
         <img 
           src={img} 
           alt={title}
-          className="w-full h-full object-cover rounded-lg"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
       </div>
-      <div className="flex-1">
-        <h3 className="font-bold text-lg text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-600 mt-1">{body}</p>
+      <div className="flex flex-col justify-center pr-2">
+        <h3 className={`font-bold text-lg transition-colors ${isSelected ? 'text-text' : 'text-text-soft'}`}>{title}</h3>
+        <p className="text-sm text-text-muted mt-0.5 leading-tight">{body}</p>
       </div>
     </div>
   );

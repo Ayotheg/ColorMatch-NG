@@ -19,18 +19,21 @@ function App() {
   return (
     <div className="min-h-screen bg-surface-alt antialiased font-body flex justify-center">
       {/* Desktop Block Message */}
-      <div className="hidden lg:flex fixed inset-0 z-[999] bg-surface flex-col items-center justify-center p-8 text-center">
-        <div className="max-w-md space-y-4">
+      <div className="hidden xl:flex fixed inset-0 z-[999] bg-surface flex-col items-center justify-center p-8 text-center animate-in fade-in duration-500">
+        <div className="max-w-md space-y-6">
+          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <h1 className="text-4xl font-title font-bold text-primary">!</h1>
+          </div>
           <h1 className="text-4xl font-title font-bold text-primary">Mobile & Tablet Only</h1>
-          <p className="text-text-muted text-lg">
-            This experience has been exclusively designed for mobile and tablet devices. 
-            Please open this application on a smaller screen to continue.
+          <p className="text-text-muted text-lg font-body">
+            This experience has been exclusively designed for mobile and tablet devices to provide the best possible user experience. 
+            Please resize your browser or open this on a smaller device.
           </p>
         </div>
       </div>
 
-      {/* Main App Container (Visible only on screens smaller than Desktop/lg) */}
-      <div className="w-full max-w-2xl min-h-screen bg-bg lg:hidden shadow-2xl relative overflow-x-hidden flex flex-col mx-auto">
+      {/* Main App Container */}
+      <div className="w-full max-w-2xl xl:max-w-3xl h-screen bg-bg xl:hidden shadow-2xl relative overflow-hidden flex flex-col mx-auto transition-all duration-500">
         <NavbarProvider>
           <QuizProvider>
             <BrowserRouter>

@@ -12,7 +12,7 @@ function Layout() {
       <NavBar {...navbarProps} />
 
 
-      <main className="flex-1 relative pb-24">
+      <main className="flex-1 relative overflow-y-auto overflow-x-hidden">
         <ProgressBar />
         <Outlet />
       </main>

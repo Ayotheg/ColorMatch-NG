@@ -83,12 +83,12 @@ export default function Step6Concerns() {
   }, [setNavbar, navigate]);
 
   return (
-    <div className="flex-1 flex flex-col px-6 pt-4 pb-32 bg-bg relative min-h-screen">
+    <div className="flex-1 flex flex-col px-6 pt-4 pb-32 bg-bg relative overflow-x-hidden">
 
       {/* Title & Description */}
-      <div className="mb-10">
+      <div className="mb-10 animate-in fade-in slide-in-from-top-6 duration-700">
         <h1 className="text-4xl font-bold font-title text-text leading-tight mb-4">
-          Any special <br /> concerns?
+          Any special <br /><span className="text-primary font-title">concerns</span>?
         </h1>
         <p className="text-text-muted text-[15px] font-body leading-relaxed max-w-[280px]">
           Select all that apply to help us calibrate the perfect finish for your environment.
@@ -97,31 +97,32 @@ export default function Step6Concerns() {
 
       {/* Concerns List */}
       <div className="space-y-4 mb-8">
-        {concerns.map((concern) => (
+        {concerns.map((concern, index) => (
           <div
             key={concern.id}
             onClick={() => toggleConcern(concern.id)}
-            className={`w-full flex items-center p-6 rounded-[32px] transition-all duration-300 border-2 text-left relative cursor-pointer ${
+            className={`w-full flex items-center p-6 rounded-[32px] transition-all duration-500 transform border-2 text-left relative cursor-pointer group animate-in fade-in slide-in-from-bottom-10 ${
               selectedConcerns.includes(concern.id)
-                ? "bg-white border-primary shadow-sm"
-                : "bg-surface-alt/50 border-transparent"
+                ? "bg-white border-primary shadow-xl scale-[1.02] -translate-y-1"
+                : "bg-surface-alt/50 border-transparent hover:border-primary/20 hover:scale-[1.01]"
             }`}
+            style={{ animationDelay: `${index * 150}ms` }}
           >
-            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mr-5 ${concern.color}`}>
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mr-5 transition-all duration-500 group-hover:scale-110 ${concern.color}`}>
               {concern.icon}
             </div>
             <div className="flex-1 pr-8">
-              <h4 className="font-bold font-title text-lg text-text leading-tight">
+              <h4 className={`font-bold font-title text-lg leading-tight transition-colors ${selectedConcerns.includes(concern.id) ? 'text-text' : 'text-text-soft'}`}>
                 {concern.label}
               </h4>
               {concern.description && (
                 <p className="text-[12px] text-text-soft mt-1 leading-tight">{concern.description}</p>
               )}
             </div>
-            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${
               selectedConcerns.includes(concern.id) 
-                ? "bg-primary border-primary" 
-                : "bg-white border-gray-200"
+                ? "bg-primary border-primary rotate-0" 
+                : "bg-white border-gray-200 rotate-90"
             }`}>
               {selectedConcerns.includes(concern.id) && <Check size={14} className="text-white" strokeWidth={3} />}
             </div>
@@ -130,8 +131,8 @@ export default function Step6Concerns() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50">
-        <div className="max-w-2xl mx-auto">
+      <div className="sticky bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50 mt-auto">
+        <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
           <Button 
             to="/loading" 
             label="Get Results" 

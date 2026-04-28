@@ -1,17 +1,8 @@
 import { useEffect } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Check, BedDouble, Sofa, CookingPot, Bath, Building2, Trees } from "lucide-react";
 import Button from "../components/Button";
-import {BedDouble } from "lucide-react";
-import {Sofa} from "lucide-react";
-import {CookingPot} from "lucide-react";
-import {Bath } from "lucide-react";
-import {Building2 } from "lucide-react";
-import {Trees } from "lucide-react";
-
-import "../index.css";
-
 import { useQuiz } from "../context/QuizContext";
 
 export default function Step1Room() {
@@ -20,6 +11,15 @@ export default function Step1Room() {
   const { quizState, setAnswer } = useQuiz();
 
   const selectedRoom = quizState.room;
+
+  const rooms = [
+    { id: "Bedroom", label: "Bedroom", icon: <BedDouble />, color: "text-amber-950", bgColor: "bg-white" },
+    { id: "Living Room", label: "Living Room", icon: <Sofa />, color: "text-green-800", bgColor: "bg-slate-50" },
+    { id: "Kitchen", label: "Kitchen", icon: <CookingPot />, color: "text-blue-600", bgColor: "bg-slate-50" },
+    { id: "Bathroom", label: "Bathroom", icon: <Bath />, color: "text-amber-950", bgColor: "bg-white" },
+    { id: "Office/ School", label: "Office/ School", icon: <Building2 />, color: "text-gray-700", bgColor: "bg-white", fullWidth: true, subtitle: "Professional Workspaces" },
+    { id: "Exterior", label: "Exterior", icon: <Trees />, color: "text-white", bgColor: "bg-white", fullWidth: true, subtitle: "Outdoor Spaces", image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=300&fit=crop" },
+  ];
 
   useEffect(() => {
     setNavbar({
@@ -50,70 +50,73 @@ export default function Step1Room() {
   }, [setNavbar, navigate]);
 
   return (
-    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
-      <div className="flex-1">
-        <h1 className="text-2xl font-bold font-title text-4xl">What are you <br /> <span className="text-primary gap-3 ">painting?</span></h1>
+    <div className="flex-1 flex flex-col px-6 pt-4 pb-32 bg-bg relative overflow-x-hidden">
+      {/* Title & Description */}
+      <div className="mb-10 animate-in fade-in slide-in-from-top-6 duration-700">
+        <h1 className="text-4xl font-bold font-title text-text leading-tight mb-4">
+          Which <span className="text-primary font-title">room</span> are <br /> we painting?
+        </h1>
+        <p className="text-text-muted text-[15px] font-body leading-relaxed max-w-[280px]">
+          Every space has its own vibe. Tell us where the magic is happening.
+        </p>
       </div>
-      
-      <div className="grid grid-cols-2 gap-5">
-        <div 
-          onClick={() => setAnswer("room", "Bedroom")}
-          className={`cursor-pointer transition-all bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border ${selectedRoom === "Bedroom" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"} icons-cover`}
-        > 
-          <div className="icons text-amber-950"><BedDouble /> </div>
-          <h4>Bedroom</h4>
-        </div>
 
-        <div 
-          onClick={() => setAnswer("room", "Living Room")}
-          className={`cursor-pointer transition-all bg-slate-100 w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border ${selectedRoom === "Living Room" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"} icons-cover`}
-        > 
-          <div className="icons icon text-green-800"><Sofa /> </div>
-          <h4>Living Room</h4>
-        </div>
+      {/* Room Grid */}
+      <div className="grid grid-cols-2 gap-4 mb-8">
+        {rooms.map((r, index) => (
+          <div
+            key={r.id}
+            onClick={() => setAnswer("room", r.id)}
+            className={`cursor-pointer transition-all duration-500 transform rounded-[32px] border-2 relative overflow-hidden group animate-in fade-in slide-in-from-bottom-12 duration-700 ${
+              r.fullWidth ? "col-span-2 py-4 px-6 h-36" : "p-6 aspect-square"
+            } ${
+              selectedRoom === r.id
+                ? "border-primary shadow-xl scale-[1.02] -translate-y-1 bg-white"
+                : "border-transparent hover:border-primary/20 hover:scale-[1.01] shadow-sm hover:shadow-md " + r.bgColor
+            }`}
+            style={{ 
+              animationDelay: `${index * 100}ms`,
+              backgroundImage: r.image ? `url(${r.image})` : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Overlay for image rooms */}
+            {r.image && <div className={`absolute inset-0 transition-opacity duration-500 ${selectedRoom === r.id ? 'bg-black/40' : 'bg-black/30 group-hover:bg-black/20'}`} />}
 
-        <div 
-          onClick={() => setAnswer("room", "Kitchen")}
-          className={`cursor-pointer transition-all bg-slate-100 w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border ${selectedRoom === "Kitchen" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"} icons-cover`}
-        > 
-          <div className="icons icon-2 text-blue-600"><CookingPot /> </div>
-          <h4>Kitchen</h4>
-        </div>
+            <div className="flex flex-col h-full relative z-10">
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-auto transition-all duration-500 ${r.image ? 'text-white' : (selectedRoom === r.id ? 'bg-primary text-white scale-110' : 'bg-white shadow-sm ' + r.color)}`}>
+                {r.icon}
+              </div>
+              
+              <div className="mt-2">
+                <h4 className={`font-bold font-title text-lg transition-colors ${r.image ? 'text-white' : (selectedRoom === r.id ? 'text-text' : 'text-text-soft')}`}>
+                  {r.label}
+                </h4>
+                {r.subtitle && (
+                  <p className={`text-[12px] opacity-80 ${r.image ? 'text-white' : 'text-text-soft'}`}>
+                    {r.subtitle}
+                  </p>
+                )}
+              </div>
+            </div>
 
-        <div 
-          onClick={() => setAnswer("room", "Bathroom")}
-          className={`cursor-pointer transition-all bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border ${selectedRoom === "Bathroom" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"} icons-cover`}
-        > 
-          <div className="icons text-amber-950"><Bath /> </div>
-          <h4>Bathroom</h4>
-        </div>
-
-        <div 
-          onClick={() => setAnswer("room", "Office/ School")}
-          className={`cursor-pointer transition-all col-span-2 bg-white w-full h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border ${selectedRoom === "Office/ School" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"} icons-cover-column`}
-        > 
-          <div className="icons-column"><Building2 /> </div>
-          <span className="mt-[-18px] ps-16 group">
-            <h4>Office/ School</h4>
-            <p>Professional Workspaces</p>
-          </span>
-        </div>
-
-        <div 
-          onClick={() => setAnswer("room", "Exterior")}
-          className={`cursor-pointer transition-all col-span-2 h-42 sm:h-36 md:h-55 rounded-3xl shadow-md hover:shadow-lg p-2.5 md:p-3 flex flex-col justify-between border ${selectedRoom === "Exterior" ? "border-white ring-4 ring-primary" : "border-gray-100"} icons-cover-column relative overflow-hidden`} 
-          style={{backgroundImage: 'url(https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=300&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center'}}
-        > 
-          <div className="absolute inset-0 bg-black/30"></div>
-          <div className="relative z-10 top-13">
-            <span className="text-white">
-              <h4>Exterior</h4>
-              <p>Outdoor Spaces</p>
-            </span>
+            {/* Active Indicator */}
+            {selectedRoom === r.id && (
+              <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-primary flex items-center justify-center animate-in zoom-in duration-300">
+                <Check size={14} className="text-white" strokeWidth={3} />
+              </div>
+            )}
           </div>
+        ))}
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50">
+        <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+          <Button to="/step2-who-is-it" label="Continue" disabled={!selectedRoom} />
         </div>
       </div>
-      <Button to="/step2-who-is-it" label="Continue" fixed disabled={!selectedRoom} />
     </div>
   );
 }
