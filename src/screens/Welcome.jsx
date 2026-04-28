@@ -68,6 +68,14 @@ export default function Welcome() {
       
 
       {/* Fixed CTA at bottom */}
+      <div className="absolute bottom-28 left-0 right-0 flex justify-center z-40">
+        <div 
+          onClick={() => alert("Just answer the questions and we will find your perfect Nigerian paint color match.")}
+          className="text-gray-500 text-sm font-medium cursor-pointer hover:text-primary transition-colors py-2 px-4"
+        >
+          Need Help?
+        </div>
+      </div>
       <Button to="/step1-room" label="Match my Color" fixed />
 
     </div>

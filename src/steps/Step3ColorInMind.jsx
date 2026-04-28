@@ -6,15 +6,21 @@ import { ArrowLeft, CircleCheck, Sparkles, ChevronRight } from "lucide-react";
 import "../index.css"
 import Button from "../components/Button";
 
+import { useQuiz } from "../context/QuizContext";
+
 export default function Step3ColorInMind() {
   const { setNavbar } = useNavbar();
   const navigate = useNavigate();
+  const { quizState, setAnswer } = useQuiz();
+
+  const selectedColor = quizState.colorInMind;
+  const hasColorInMind = quizState.hasColorInMind;
 
   useEffect(() => {
     setNavbar({
       left: (
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/step2-who-is-it")}
           className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-100"
         >
           <ArrowLeft size={18} className="text-gray-700" />
@@ -42,64 +48,99 @@ export default function Step3ColorInMind() {
     <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
       <div className="flex-1">
         <h1 className="text-3xl font-bold">Do you have a color in mind already?</h1>
-      <p className="font-body text-base text-gray-500 py-4">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
-      <div className="flex items-center justify-between mt-6 mb-4">
-        <h3 className="text-primary font-body font-semibold">Yes, I have a favorite</h3>
-        <CircleCheck className="text-primary w-5 h-5" />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
-          <div className="bg-sky-400 aspect-square rounded-xl w-full"></div>
-          <div>
-            <h4 className="font-semibold text-sm">Sky Blue</h4>
-            <p className="text-gray-400 text-xs">7082</p>
-          </div>
+        <p className="font-body text-base text-gray-500 py-4">Choose from our signature Nigerian Chart or let our AI artist curate your space</p>
+        
+        <div className="flex items-center justify-between mt-6 mb-4">
+          <h3 className="text-primary font-body font-semibold">Yes, I have a favorite</h3>
+          <CircleCheck className="text-primary w-5 h-5" />
         </div>
-        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-primary/20 ring-1 ring-primary/10 relative">
-          <div className="bg-primary aspect-square rounded-xl w-full"></div>
-          <div>
-            <h4 className="font-semibold text-sm">Rich Brown</h4>
-            <p className="text-gray-400 text-xs">3044</p>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div 
+            onClick={() => {
+              setAnswer("hasColorInMind", true);
+              setAnswer("colorInMind", "Sky Blue");
+            }}
+            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Sky Blue" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
+          >
+            <div className="bg-sky-400 aspect-square rounded-xl w-full"></div>
+            <div>
+              <h4 className="font-semibold text-sm">Sky Blue</h4>
+              <p className="text-gray-400 text-xs">7082</p>
+            </div>
           </div>
-          <div className="absolute bottom-3 right-3">
-            <div className="bg-primary rounded-full p-0.5">
-              <CircleCheck className="text-white w-3 h-3" />
+
+          <div 
+            onClick={() => {
+              setAnswer("hasColorInMind", true);
+              setAnswer("colorInMind", "Rich Brown");
+            }}
+            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Rich Brown" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
+          >
+            <div className="bg-primary aspect-square rounded-xl w-full"></div>
+            <div>
+              <h4 className="font-semibold text-sm">Rich Brown</h4>
+              <p className="text-gray-400 text-xs">3044</p>
+            </div>
+            {selectedColor === "Rich Brown" && (
+              <div className="absolute bottom-3 right-3">
+                <div className="bg-primary rounded-full p-0.5">
+                  <CircleCheck className="text-white w-3 h-3" />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div 
+            onClick={() => {
+              setAnswer("hasColorInMind", true);
+              setAnswer("colorInMind", "Rose");
+            }}
+            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Rose" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
+          >
+            <div className="bg-rose-300 aspect-square rounded-xl w-full"></div>
+            <div>
+              <h4 className="font-semibold text-sm">Rose</h4>
+              <p className="text-gray-400 text-xs">1021</p>
+            </div>
+          </div>
+
+          <div 
+            onClick={() => {
+              setAnswer("hasColorInMind", true);
+              setAnswer("colorInMind", "Leaf Green");
+            }}
+            className={`bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border cursor-pointer transition-all ${selectedColor === "Leaf Green" ? "border-primary ring-2 ring-primary/20" : "border-gray-100"}`}
+          >
+            <div className="bg-green-500 aspect-square rounded-xl w-full"></div>
+            <div>
+              <h4 className="font-semibold text-sm">Leaf Green</h4>
+              <p className="text-gray-400 text-xs">6071</p>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
-          <div className="bg-rose-300 aspect-square rounded-xl w-full"></div>
-          <div>
-            <h4 className="font-semibold text-sm">Rose</h4>
-            <p className="text-gray-400 text-xs">1021</p>
+
+        <div className="separator-or">OR</div>
+
+        <div 
+          onClick={() => {
+            setAnswer("hasColorInMind", false);
+            setAnswer("colorInMind", "No preference");
+          }}
+          className={`bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border ${hasColorInMind === false ? "border-primary ring-2 ring-primary/20 bg-primary/5" : "border-gray-100"}`}
+        >
+          <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
+            <Sparkles size={22} fill="currentColor" />
           </div>
-        </div>
-        <div className="bg-white rounded-2xl shadow-sm p-3 flex flex-col gap-3 border border-gray-100">
-          <div className="bg-green-500 aspect-square rounded-xl w-full"></div>
-          <div>
-            <h4 className="font-semibold text-sm">Leaf Green</h4>
-            <p className="text-gray-400 text-xs">6071</p>
+          <div className="flex-1">
+            <h4 className="font-bold text-gray-800 text-sm">No - let the app decide</h4>
+            <p className="text-gray-500 text-xs">Generate a custom palette based on your vibe</p>
           </div>
+          <ChevronRight size={20} className={hasColorInMind === false ? "text-primary" : "text-gray-400"} />
         </div>
-      </div>
-
-      <div className="separator-or">OR</div>
-
-      <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100">
-        <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
-          <Sparkles size={22} fill="currentColor" />
-        </div>
-        <div className="flex-1">
-          <h4 className="font-bold text-gray-800 text-sm">No - let the app decide</h4>
-          <p className="text-gray-500 text-xs">Generate a custom palette based on your vibe</p>
-        </div>
-        <ChevronRight size={20} className="text-gray-400" />
-      </div>
-
       </div>
       
-      <Button to="/step4-matching" label="Continue" fixed />
+      <Button to="/step4-matching" label="Continue" fixed disabled={hasColorInMind === null} />
     </div>
   );
 }

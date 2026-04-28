@@ -7,16 +7,20 @@ import Button from "../components/Button";
 import Data from "../data/map";
 
 
+import { useQuiz } from "../context/QuizContext";
+
 function Step2WhoIsIt() {
   const { setNavbar } = useNavbar();
   const navigate = useNavigate();
-  const [selectedType, setSelectedType] = useState(null);
+  const { quizState, setAnswer } = useQuiz();
+
+  const selectedWho = quizState.who;
 
   useEffect(() => {
     setNavbar({
       left: (
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/step1-room")}
           className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-100"
         >
           <ArrowLeft size={18} className="text-gray-700" />
@@ -53,29 +57,26 @@ function Step2WhoIsIt() {
               title={item.title}
               body={item.body}
               img={item.img}
-              isSelected={selectedType === index}
-              onSelect={() => setSelectedType(index)}
+              isSelected={selectedWho === item.title}
+              onSelect={() => setAnswer("who", item.title)}
             />
           ))}
         </div>
 
 
-        <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100">
-        <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
-          <Info size={22}  />
-
+        <div className="bg-[#f8f9fa] rounded-2xl p-5 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition-colors border border-gray-100 mt-8">
+          <div className="w-12 h-12 rounded-full bg-[#c2f2d9] flex items-center justify-center text-[#2d6a4f]">
+            <Info size={22}  />
+          </div>
+          <div className="flex-1">
+            <h4 className="font-bold text-gray-800 text-sm"></h4>
+            <p className="text-gray-500 text-xs">Choosing the right inhabitant helps us calculate the paint needed for your specific project</p>
+          </div>
+          <ChevronRight size={20} className="text-gray-400" />
         </div>
-        <div className="flex-1">
-          
-          <h4 className="font-bold text-gray-800 text-sm"></h4>
-          <p className="text-gray-500 text-xs">Choosing the right inhabitant helps us calculate the paint needed for your specific project</p>
-        </div>
-        <ChevronRight size={20} className="text-gray-400" />
       </div>
       
-      </div>
-      
-      <Button to="/step3-color-in-mind" label="Continue" fixed />
+      <Button to="/step3-color-in-mind" label="Continue" fixed disabled={!selectedWho} />
     </div>
   );
 }

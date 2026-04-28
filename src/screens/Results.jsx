@@ -1,18 +1,35 @@
 import { useEffect } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Share2 } from "lucide-react";
+import { ArrowLeft, Share, Info, CheckCircle2, ChevronRight, Camera } from "lucide-react";
 import Button from "../components/Button";
+
+import { useQuiz } from "../context/QuizContext";
 
 export default function Results() {
   const { setNavbar } = useNavbar();
   const navigate = useNavigate();
+  const { quizState, resetQuiz } = useQuiz();
+
+  const dummyData = {
+    primary: {
+      name: "Sky Blue",
+      code: "7003",
+      hex: "#87CEEB",
+      use: "Main walls"
+    },
+    pairings: [
+      { name: "Off-White", code: "4946", hex: "#F5F0E8", use: "Ceiling" },
+      { name: "Cream", code: "3040", hex: "#F5EDDA", use: "Trim & doors" }
+    ],
+    reason: `Sky Blue creates a calm and airy feel, perfect for your ${quizState.room || 'living room'}. The Off-White ceiling keeps it bright and the Cream trim adds a warm Nigerian home feel.`
+  };
 
   useEffect(() => {
     setNavbar({
       left: (
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/step6-concerns")}
           className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-100"
         >
           <ArrowLeft size={18} className="text-gray-700" />
@@ -25,20 +42,103 @@ export default function Results() {
         </div>
       ),
       right: (
-        <button className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 hover:bg-gray-50 transition-colors">
-          <Share2 size={18} className="text-gray-700" />
+        <button 
+          onClick={() => alert("Shared!")}
+          className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 hover:bg-gray-50 transition-colors"
+        >
+          <Share size={18} className="text-gray-700" />
         </button>
       ),
     });
   }, [setNavbar, navigate]);
 
+  const handleStartOver = () => {
+    resetQuiz();
+    navigate("/");
+  };
+
   return (
-    <div className="flex-1 flex flex-col relative px-6 pt-4 pb-32">
-      <div className="flex-1">
-        <h1 className="text-2xl font-bold">Results</h1>
+    <div className="flex-1 flex flex-col bg-bg min-h-screen px-6 pt-6 pb-40">
+      {/* Title Section */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold font-title text-text leading-tight mb-3">
+          Here's your <br /> perfect match 🎨
+        </h1>
+        <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#e5f9f0] text-[#54b484] text-[10px] font-bold uppercase tracking-wider font-button">
+          Recommended: {quizState.paintType || "Satin"}
+        </span>
       </div>
-      
-      <Button to="/" label="Find a Store" fixed />
+
+      {/* Main Color Card */}
+      <div 
+        className="rounded-[40px] p-8 aspect-[4/5] relative overflow-hidden shadow-xl mb-6 group transition-all duration-500 hover:scale-[1.02]"
+        style={{ backgroundColor: dummyData.primary.hex }}
+      >
+        <div className="absolute top-8 right-8 bg-white/20 backdrop-blur-md px-3 py-1 rounded-lg">
+          <span className="text-[10px] font-bold text-white tracking-widest">SKY-{dummyData.primary.code}</span>
+        </div>
+        <div className="absolute bottom-10 left-8 right-8">
+          <p className="text-[10px] font-bold text-white uppercase tracking-widest mb-1 font-button opacity-80">{dummyData.primary.use}</p>
+          <h2 className="text-4xl font-bold font-title text-white leading-tight">
+            {dummyData.primary.name} — <br /> {dummyData.primary.code}
+          </h2>
+        </div>
+        {/* Abstract patterns */}
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-black/10 rounded-full blur-2xl" />
+      </div>
+
+      {/* Info Box */}
+      <div className="bg-surface-alt/50 p-6 rounded-[32px] border border-border flex gap-4 mb-10">
+        <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white shrink-0 mt-1">
+          <Info size={14} className="text-white" />
+        </div>
+        <p className="text-[13px] text-text-muted leading-relaxed font-body">
+          {dummyData.reason}
+        </p>
+      </div>
+
+      {/* Suggested Pairings */}
+      <div className="space-y-6">
+        <h3 className="font-bold font-title text-xl text-text">Suggested Pairings</h3>
+        
+        <div className="space-y-4">
+          {dummyData.pairings.map((pairing, index) => (
+            <div key={index} className="flex items-center gap-4 bg-white p-4 rounded-3xl border border-border shadow-sm">
+              <div 
+                className="w-20 h-20 rounded-2xl shadow-inner border border-black/5" 
+                style={{ backgroundColor: pairing.hex }}
+              />
+              <div className="flex-1">
+                <p className="text-[10px] font-bold text-text-soft uppercase tracking-widest mb-1 font-button">{pairing.use}</p>
+                <h4 className="font-bold font-title text-text text-lg">{pairing.name}</h4>
+                <p className="text-xs text-text-soft">Code: {pairing.code}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Pro Tip Footer */}
+      <div className="mt-12 mb-8 bg-surface-alt/30 py-4 px-6 rounded-2xl border border-dashed border-border flex items-center justify-center gap-3">
+        <Camera size={16} className="text-text-soft" />
+        <p className="text-[11px] font-bold text-text-soft font-button">
+          Pro tip: Screenshot to save for the shop assistant
+        </p>
+      </div>
+
+      {/* Bottom Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50 flex flex-col gap-3">
+        <div className="max-w-2xl mx-auto w-full flex flex-col gap-3">
+          <Button label="Find Nearest Store" onClick={() => alert("Finding stores near you...")} />
+          <button 
+            onClick={handleStartOver}
+            className="w-full py-4 text-text-muted font-bold font-button hover:text-primary transition-colors text-center"
+          >
+            Start Over
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

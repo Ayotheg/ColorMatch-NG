@@ -12,7 +12,8 @@ import Step3ColorInMind from './steps/Step3ColorInMind';
 import Step4Matching from './steps/Step4Matching';
 import Step5PaintType from './steps/Step5PaintType';
 import Step6Concerns from './steps/Step6Concerns';
-import UserType from './steps/UserType';
+
+import { QuizProvider } from './context/QuizContext';
 
 function App() {
   return (
@@ -31,22 +32,23 @@ function App() {
       {/* Main App Container (Visible only on screens smaller than Desktop/lg) */}
       <div className="w-full max-w-2xl min-h-screen bg-bg lg:hidden shadow-2xl relative overflow-x-hidden flex flex-col mx-auto">
         <NavbarProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Welcome />} />
-              <Route path="loading" element={<Loading />} />
-              <Route path="results" element={<Results />} />
-              <Route path="step1-room" element={<Step1Room />} />
-              <Route path="step2-who-is-it" element={<Step2WhoIsIt />} />
-              <Route path="step3-color-in-mind" element={<Step3ColorInMind />} />
-              <Route path="step4-matching" element={<Step4Matching />} />
-              <Route path="step5-paint-type" element={<Step5PaintType />} />
-              <Route path="step6-concerns" element={<Step6Concerns />} />
-              <Route path="user-type" element={<UserType />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+          <QuizProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Welcome />} />
+                  <Route path="loading" element={<Loading />} />
+                  <Route path="results" element={<Results />} />
+                  <Route path="step1-room" element={<Step1Room />} />
+                  <Route path="step2-who-is-it" element={<Step2WhoIsIt />} />
+                  <Route path="step3-color-in-mind" element={<Step3ColorInMind />} />
+                  <Route path="step4-matching" element={<Step4Matching />} />
+                  <Route path="step5-paint-type" element={<Step5PaintType />} />
+                  <Route path="step6-concerns" element={<Step6Concerns />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </QuizProvider>
         </NavbarProvider>
       </div>
     </div>
