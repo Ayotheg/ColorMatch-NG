@@ -1,21 +1,36 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useNavbar } from "../context/NavbarContext";
+import { useQuiz } from "../context/QuizContext";
+import { getColorSuggestion } from "../utils/getColorSuggestion";
 
 export default function Loading() {
   const navigate = useNavigate();
   const { setNavbar } = useNavbar();
+  const { quizState } = useQuiz();
 
   useEffect(() => {
     // Hide navbar elements during loading
     setNavbar({ left: null, center: null, right: null });
 
-    const timer = setTimeout(() => {
-      navigate("/results");
-    }, 3000);
+    async function fetchResult() {
+      console.log("Fetching color suggestion for quizState:", quizState);
+      try {
+        const result = await getColorSuggestion(quizState);
+        console.log("Successfully got result:", result);
+        navigate("/results", { state: { result } });
+      } catch (error) {
+        console.error("Failed to get color suggestion:", error);
+        setTimeout(() => {
+           navigate("/results", { state: { error: error.message } });
+        }, 2000);
+      }
+    }
 
-    return () => clearTimeout(timer);
-  }, [navigate, setNavbar]);
+
+    fetchResult();
+  }, [navigate, setNavbar, quizState]);
+
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center bg-bg relative overflow-hidden">

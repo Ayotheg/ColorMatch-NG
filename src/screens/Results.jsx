@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavbar } from "../context/NavbarContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Share, Info, CheckCircle2, ChevronRight, Camera, X, CheckCircle, MapPin } from "lucide-react";
 import Button from "../components/Button";
 
@@ -9,10 +9,31 @@ import { useQuiz } from "../context/QuizContext";
 export default function Results() {
   const { setNavbar } = useNavbar();
   const navigate = useNavigate();
+  const location = useLocation();
   const { quizState, resetQuiz } = useQuiz();
   const [showToast, setShowToast] = useState(false);
 
-  const dummyData = {
+  // Debugging
+  useEffect(() => {
+    console.log("Location state in Results:", location.state);
+  }, [location.state]);
+
+  // Handle case where we have an error from navigation
+  if (location.state?.error) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center bg-bg px-6 text-center">
+        <div className="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6">
+          <X size={32} />
+        </div>
+        <h1 className="text-2xl font-bold font-title text-text mb-2">Something went wrong</h1>
+        <p className="text-text-muted mb-8 max-w-[280px]">{location.state.error}</p>
+        <Button label="Try Again" onClick={() => navigate("/step6-concerns")} />
+      </div>
+    );
+  }
+
+  // Get result from location state, or use dummy as fallback if navigation failed
+  const data = location.state?.result || {
     primary: {
       name: "Sky Blue",
       code: "7003",
@@ -23,8 +44,10 @@ export default function Results() {
       { name: "Off-White", code: "4946", hex: "#F5F0E8", use: "Ceiling" },
       { name: "Cream", code: "3040", hex: "#F5EDDA", use: "Trim & doors" }
     ],
-    reason: `Sky Blue creates a calm and airy feel, perfect for your ${quizState.room || 'living room'}. The Off-White ceiling keeps it bright and the Cream trim adds a warm Nigerian home feel.`
+    reason: `Sky Blue creates a calm and airy feel, perfect for your Nigerian home. The Off-White ceiling keeps it bright and the Cream trim adds a warm feel.`
   };
+
+
 
   const handleShare = () => {
     setShowToast(true);
@@ -96,15 +119,15 @@ export default function Results() {
       {/* Main Color Card */}
       <div 
         className="rounded-[40px] p-8 aspect-[4/5] relative overflow-hidden shadow-2xl mb-6 group transition-all duration-700 hover:scale-[1.02] animate-in fade-in zoom-in-95 duration-1000"
-        style={{ backgroundColor: dummyData.primary.hex }}
+        style={{ backgroundColor: data.primary.hex }}
       >
         <div className="absolute top-8 right-8 bg-white/20 backdrop-blur-md px-3 py-1 rounded-lg">
-          <span className="text-[10px] font-bold text-white tracking-widest">SKY-{dummyData.primary.code}</span>
+          <span className="text-[10px] font-bold text-white tracking-widest">{data.primary.code}</span>
         </div>
         <div className="absolute bottom-10 left-8 right-8">
-          <p className="text-[10px] font-bold text-white uppercase tracking-widest mb-1 font-button opacity-80">{dummyData.primary.use}</p>
+          <p className="text-[10px] font-bold text-white uppercase tracking-widest mb-1 font-button opacity-80">{data.primary.use}</p>
           <h2 className="text-4xl font-bold font-title text-white leading-tight">
-            {dummyData.primary.name} — <br /> {dummyData.primary.code}
+            {data.primary.name} — <br /> {data.primary.code}
           </h2>
         </div>
         {/* Abstract patterns */}
@@ -118,7 +141,7 @@ export default function Results() {
           <Info size={14} className="text-white" />
         </div>
         <p className="text-[13px] text-text-muted leading-relaxed font-body italic">
-          "{dummyData.reason}"
+          "{data.reason}"
         </p>
       </div>
 
@@ -127,7 +150,7 @@ export default function Results() {
         <h3 className="font-bold font-title text-xl text-text px-1">Suggested Pairings</h3>
         
         <div className="space-y-4">
-          {dummyData.pairings.map((pairing, index) => (
+          {data.pairings.map((pairing, index) => (
             <div 
               key={index} 
               className="flex items-center gap-4 bg-white p-4 rounded-[32px] border border-border shadow-sm hover:shadow-md transition-all duration-300 group animate-in fade-in slide-in-from-right-8"
@@ -149,6 +172,7 @@ export default function Results() {
           ))}
         </div>
       </div>
+
 
       {/* Pro Tip Footer */}
       <div className="mt-4 mb-8 bg-surface-alt/30 py-4 px-6 rounded-2xl border border-dashed border-border flex items-center justify-center gap-3 animate-in fade-in duration-1000 delay-1000">
