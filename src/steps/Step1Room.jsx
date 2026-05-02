@@ -49,6 +49,16 @@ export default function Step1Room() {
     });
   }, [setNavbar, navigate]);
 
+  const handleContinue = () => {
+    if (selectedRoom === "Bedroom" || selectedRoom === "Living Room") {
+      navigate("/step2-who-is-it");
+    } else {
+      // Clear Step 2 answer if skipping
+      setAnswer("who", ""); 
+      navigate("/step3-color-in-mind");
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col px-6 pt-4 pb-32 bg-bg relative overflow-x-hidden">
       {/* Title & Description */}
@@ -114,9 +124,10 @@ export default function Step1Room() {
       {/* Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-bg via-bg to-transparent z-50">
         <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-          <Button to="/step2-who-is-it" label="Continue" disabled={!selectedRoom} />
+          <Button onClick={handleContinue} label="Continue" disabled={!selectedRoom} />
         </div>
       </div>
+
     </div>
   );
 }

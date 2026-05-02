@@ -12,6 +12,7 @@ import Step3ColorInMind from './steps/Step3ColorInMind';
 import Step4Matching from './steps/Step4Matching';
 import Step5PaintType from './steps/Step5PaintType';
 import Step6Concerns from './steps/Step6Concerns';
+import Exterior from './steps/Exterior';
 
 import { QuizProvider } from './context/QuizContext';
 
@@ -48,6 +49,7 @@ function App() {
                   <Route path="step4-matching" element={<Step4Matching />} />
                   <Route path="step5-paint-type" element={<Step5PaintType />} />
                   <Route path="step6-concerns" element={<Step6Concerns />} />
+                  <Route path="exterior" element={<Exterior />} />
                 </Route>
               </Routes>
             </BrowserRouter>
