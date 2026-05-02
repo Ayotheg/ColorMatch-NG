@@ -58,12 +58,12 @@ export default function Welcome() {
         <div className="flex flex-row items-center gap-8 sm:gap-6 md:gap-20 mb-8 flex-wrap animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
           <div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg transition-all p-2.5 md:p-3 flex flex-col justify-between transform -rotate-3 hover:rotate-0 hover:-translate-y-2 cursor-pointer border border-gray-100">
             <div className="bg-primary w-full h-30 sm:h-24 md:h-38 rounded-2xl shadow-inner"></div>
-            <h4 className="font-button text-[9px] sm:text-[10px] md:text-xs text-center text-gray-500 font-semibold tracking-wider uppercase mb-1 drop-shadow-sm">CLAY EARTH</h4>
+            <h4 className="font-button text-[9px] sm:text-[10px] md:text-xs text-center text-gray-500 font-semibold tracking-wider uppercase mb-1 drop-shadow-sm">RICH BROWN</h4>
           </div>
           <div className="ml-auto mt-[-50px]">
             <div className="bg-white w-42 h-42 sm:w-36 sm:h-36 md:w-55 md:h-55 rounded-3xl shadow-md hover:shadow-lg transition-all p-2.5 md:p-3 flex flex-col justify-between mt-8 sm:mt-12 md:mt-16 transform rotate-3 hover:rotate-0 hover:-translate-y-2 cursor-pointer border border-gray-100">
-              <div className="bg-[#4d6a5f] w-full h-30 sm:h-24 md:h-38 rounded-2xl shadow-inner"></div>
-              <h4 className="font-button text-[9px] sm:text-[10px] md:text-xs text-center text-gray-500 font-semibold tracking-wider uppercase mb-1 drop-shadow-sm">SAVANNAH GREEN</h4>
+              <div className="bg-[#11412e] w-full h-30 sm:h-24 md:h-38 rounded-2xl shadow-inner"></div>
+              <h4 className="font-button text-[9px] sm:text-[10px] md:text-xs text-center text-gray-500 font-semibold tracking-wider uppercase mb-1 drop-shadow-sm">NATIONAL GREEN</h4>
             </div>
           </div>
         </div>

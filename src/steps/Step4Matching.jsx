@@ -1,9 +1,38 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavbar } from "../context/NavbarContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Blinds, Grid2x2, Armchair, BrickWall, Ban, Pipette, Check, RotateCcw } from "lucide-react";
+import { ArrowLeft, Blinds, Grid2x2, Armchair, BrickWall, Ban, Pipette, Check, RotateCcw, DoorOpen, Fence, FlameKindling, PaintBucket } from "lucide-react";
 import Button from "../components/Button";
 import { useQuiz } from "../context/QuizContext";
+
+// ─── Room-aware matching options ─────────────────────────────────────────────
+const MATCHING_OPTIONS = {
+  default: [
+    { id: "Curtains",  icon: <Blinds size={22} />,       label: "Curtains" },
+    { id: "Furniture", icon: <Armchair size={22} />,      label: "Furniture" },
+    { id: "Tiles",     icon: <Grid2x2 size={22} />,       label: "Tiles" },
+    { id: "Wallpaper", icon: <BrickWall size={22} />,     label: "Wallpaper" },
+  ],
+  Kitchen: [
+    { id: "Tiles",     icon: <Grid2x2 size={22} />,       label: "Tiles" },
+    { id: "Cabinets",  icon: <DoorOpen size={22} />,      label: "Cabinets" },
+    { id: "Furniture", icon: <Armchair size={22} />,      label: "Furniture" },
+  ],
+  Bathroom: [
+    { id: "Tiles",     icon: <Grid2x2 size={22} />,       label: "Tiles" },
+    { id: "Fixtures",  icon: <PaintBucket size={22} />,   label: "Fixtures" },
+  ],
+  "Office/ School": [
+    { id: "Furniture", icon: <Armchair size={22} />,      label: "Furniture" },
+    { id: "Doors",     icon: <DoorOpen size={22} />,      label: "Doors" },
+    { id: "Tiles",     icon: <Grid2x2 size={22} />,       label: "Tiles" },
+  ],
+  Exterior: [
+    { id: "Gate/Fence", icon: <Fence size={22} />,        label: "Gate / Fence" },
+    { id: "Roof",       icon: <FlameKindling size={22} />, label: "Roof" },
+    { id: "Doors",      icon: <DoorOpen size={22} />,     label: "Doors" },
+  ],
+};
 
 export default function Step4Matching() {
   const { setNavbar } = useNavbar();
@@ -14,17 +43,13 @@ export default function Step4Matching() {
   const selectedColor = quizState.matchingColor || "#d1b390";
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [tempColor, setTempColor] = useState("#b24a03");
-  const [handlePos, setHandlePos] = useState({ x: 75, y: 25 }); // Percentage relative to center (50, 50)
+  const [handlePos, setHandlePos] = useState({ x: 75, y: 25 });
   
   const wheelRef = useRef(null);
 
-  // Options for matching
-  const selectionTypes = [
-    { id: "Curtains", icon: <Blinds size={22} />, label: "Curtains" },
-    { id: "Tiles", icon: <Grid2x2 size={22} />, label: "Tiles" },
-    { id: "Furniture", icon: <Armchair size={22} />, label: "Furniture" },
-    { id: "Wallpaper", icon: <BrickWall size={22} />, label: "Wallpaper" },
-  ];
+  // Pick options based on room selected in Step 1
+  const room = quizState.room || "";
+  const selectionTypes = MATCHING_OPTIONS[room] || MATCHING_OPTIONS.default;
 
   const toggleSelection = (id) => {
     if (id === "Nothing") {
@@ -50,6 +75,15 @@ export default function Step4Matching() {
       }
     }
   };
+
+  // Clear stale matching selections when user goes back and picks a different room
+  useEffect(() => {
+    const validIds = selectionTypes.map((t) => t.id);
+    const cleaned = selectedMatching.filter((id) => id === "Nothing" || validIds.includes(id));
+    if (cleaned.length !== selectedMatching.length) {
+      setAnswer("matching", cleaned);
+    }
+  }, [room]);
 
   const handleWheelInteraction = (e) => {
     if (!wheelRef.current) return;
@@ -143,7 +177,13 @@ export default function Step4Matching() {
           match?
         </h1>
         <p className="text-text-muted mt-3 text-[15px] font-body leading-relaxed">
-          Select any elements in your space that we <br /> should harmonize with.
+          {room === "Exterior"
+            ? "Select any outdoor elements we should coordinate with."
+            : room === "Bathroom"
+            ? "Select any fixtures or surfaces we should complement."
+            : room === "Kitchen"
+            ? "Select any kitchen elements we should harmonize with."
+            : "Select any elements in your space that we should harmonize with."}
         </p>
       </div>
 
