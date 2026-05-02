@@ -78,7 +78,7 @@ export default function Step1Room() {
             key={r.id}
             onClick={() => setAnswer("room", r.id)}
             className={`cursor-pointer transition-all duration-500 transform rounded-[32px] border-2 relative overflow-hidden group animate-in fade-in slide-in-from-bottom-12 duration-700 ${
-              r.fullWidth ? "col-span-2 py-4 px-6 h-36" : "p-6 aspect-square"
+              r.fullWidth ? "col-span-2 py-5 px-6 h-36" : "p-5 min-h-[160px]"
             } ${
               selectedRoom === r.id
                 ? "border-primary shadow-xl scale-[1.02] -translate-y-1 bg-white"
@@ -94,17 +94,17 @@ export default function Step1Room() {
             {/* Overlay for image rooms */}
             {r.image && <div className={`absolute inset-0 transition-opacity duration-500 ${selectedRoom === r.id ? 'bg-black/40' : 'bg-black/30 group-hover:bg-black/20'}`} />}
 
-            <div className="flex flex-col h-full relative z-10">
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-auto transition-all duration-500 ${r.image ? 'text-white' : (selectedRoom === r.id ? 'bg-primary text-white scale-110' : 'bg-white shadow-sm ' + r.color)}`}>
+            <div className="flex flex-col justify-between h-full relative z-10">
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${r.image ? 'text-white' : (selectedRoom === r.id ? 'bg-primary text-white scale-110' : 'bg-white shadow-sm ' + r.color)}`}>
                 {r.icon}
               </div>
               
-              <div className="mt-2">
-                <h4 className={`font-bold font-title text-lg transition-colors ${r.image ? 'text-white' : (selectedRoom === r.id ? 'text-text' : 'text-text-soft')}`}>
+              <div className="mt-3">
+                <h4 className={`font-bold font-title text-base transition-colors ${r.image ? 'text-white' : (selectedRoom === r.id ? 'text-text' : 'text-text-muted')}`}>
                   {r.label}
                 </h4>
                 {r.subtitle && (
-                  <p className={`text-[12px] opacity-80 ${r.image ? 'text-white' : 'text-text-soft'}`}>
+                  <p className={`text-[11px] mt-0.5 ${r.image ? 'text-white/80' : 'text-text-soft'}`}>
                     {r.subtitle}
                   </p>
                 )}
