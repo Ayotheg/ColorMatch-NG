@@ -15,6 +15,7 @@ import Step6Concerns from './steps/Step6Concerns';
 import Exterior from './steps/Exterior';
 
 import { QuizProvider } from './context/QuizContext';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           </QuizProvider>
         </NavbarProvider>
       </div>
+      <Analytics />
     </div>
   );
 }
