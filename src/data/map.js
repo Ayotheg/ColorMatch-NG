@@ -14,16 +14,6 @@ export const Data = [
         body:"Focus on low colour and high-visibility contrast",
         img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcolRoTlq95MsGUffAoIPGhIBuc-MxeeUEQA&s"
     },
-    {
-        title:"Commercial / Business",
-        body:"Maximum durability for high-traffic environments",
-        img:"https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop"
-    },
-    {
-        title:"Exterior",
-        body:"Weather-resistant paint for outdoor spaces",
-        img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop"
-    }
 ]
 
 export default Data;
