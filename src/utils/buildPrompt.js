@@ -1,11 +1,10 @@
-import { buildColorListForPrompt } from "../data/colors";
+import { getColorsByType } from "../data/colors";
 
 /**
  * buildPrompt.js
- * Builds the AI prompt from quiz answers.
- * The system prompt is very strict about JSON-only output
- * so any model — Llama, DeepSeek, Mistral, Qwen — returns
- * the same consistent shape.
+ * Builds a SHORT but effective AI prompt from quiz answers.
+ * Key fix: we stopped sending the full color list (too many tokens).
+ * Instead we send only the colors relevant to the customer's context.
  */
 export function buildPrompt(quizState) {
   const {
@@ -20,61 +19,106 @@ export function buildPrompt(quizState) {
   } = quizState;
 
   const type = (paintType || "emulsion").toLowerCase();
-  const availableColors = buildColorListForPrompt(type);
+
+  // ─── Send only a SHORT relevant color list ────────────────
+  // Full list is ~2000 tokens. Instead, filter to 15-20 most
+  // relevant colors based on context to keep the prompt small.
+  const allColors = getColorsByType(type);
+  const relevantColors = getRelevantColors(allColors, quizState);
+  const colorList = relevantColors
+    .map((c) => `${c.name} (${c.code})`)
+    .join(", ");
 
   // ─── SYSTEM PROMPT ────────────────────────────────────────
-  // Extremely strict — JSON only, no exceptions
-  const systemPrompt = `You are a Nigerian paint shop color expert. You know the Prestige Paint Gloss & Emulsion range and the Prestige Flex & Textured Finish (Texcoat) range sold in Nigerian paint shops.
-
-YOUR ONLY JOB: Return a single valid JSON object. Nothing else.
-- Do NOT write any text before the JSON
-- Do NOT write any text after the JSON
-- Do NOT use markdown, code blocks, or backticks
-- Do NOT explain anything outside the JSON
-- Start your response with { and end with }
-
-RULES:
-- Ceiling in Nigerian homes is ALWAYS Brilliant White — never suggest otherwise
-- Only suggest colors from the list the user provides
-- Keep the reason warm, simple, and in plain English any Nigerian customer understands
-- Maximum 2 pairings`;
+  const systemPrompt = `You are a Nigerian paint shop color expert. Suggest colors from the Prestige Paint range.
+STRICT RULES:
+- Reply with ONLY a JSON object. No text before or after. No markdown. No backticks.
+- Start with { and end with }
+- Ceiling in Nigerian homes is ALWAYS Brilliant White
+- Use only colors from the list provided`;
 
   // ─── USER PROMPT ──────────────────────────────────────────
-  const userPrompt = `Nigerian paint shop customer details:
-Room: ${room || "Not specified"}
-For: ${who || "Not specified"}  
+  const userPrompt = `Customer details:
+Room: ${room || "Living Room"}
+For: ${who || "Family"}
 Paint type: ${paintType || "Emulsion"}
-Color in mind: ${hasColorInMind ? colorInMind : "No preference"}
-Needs to match: ${matching?.length > 0 ? matching.join(", ") : "Nothing"}
-${matchingColor ? `Match color (hex): ${matchingColor}` : ""}
+Color preference: ${hasColorInMind && colorInMind ? colorInMind : "No preference"}
+Matching: ${matching?.length > 0 ? matching.join(", ") : "Nothing"}${matchingColor ? ` (color: ${matchingColor})` : ""}
 Concerns: ${concerns?.length > 0 ? concerns.join(", ") : "None"}
 
-Available colors: ${availableColors}
+Available colors: ${colorList}
 
-Return ONLY this JSON, nothing else, no markdown:
-{
-  "primary": {
-    "name": "exact color name from list",
-    "code": "exact code from list",
-    "hex": "#hexcode",
-    "use": "Main walls"
-  },
-  "pairings": [
-    {
-      "name": "exact color name",
-      "code": "exact code",
-      "hex": "#hexcode",
-      "use": "Ceiling"
-    },
-    {
-      "name": "exact color name",
-      "code": "exact code",
-      "hex": "#hexcode",
-      "use": "Accent wall"
-    }
-  ],
-  "reason": "2 sentence warm explanation for a Nigerian customer"
-}`;
+Reply with ONLY this JSON:
+{"primary":{"name":"","code":"","hex":"","use":"Main walls"},"pairings":[{"name":"","code":"","hex":"","use":"Ceiling"},{"name":"","code":"","hex":"","use":"Accent wall"}],"reason":""}`;
 
   return { systemPrompt, userPrompt };
+}
+
+/**
+ * getRelevantColors
+ * Returns a filtered subset of colors relevant to the customer's context.
+ * Keeps the prompt short so the AI has enough tokens to complete its response.
+ */
+function getRelevantColors(colors, quizState) {
+  const { room, concerns, colorInMind, hasColorInMind } = quizState;
+
+  // Always include whites/neutrals — used for ceiling and trim
+  const neutralFamilies = ["white", "cream", "beige"];
+  const neutrals = colors.filter((c) => neutralFamilies.includes(c.family));
+
+  // If customer has a color in mind, include that color family + related
+  let preferredFamily = [];
+  if (hasColorInMind && colorInMind) {
+    const keyword = colorInMind.toLowerCase();
+    preferredFamily = colors.filter(
+      (c) =>
+        c.name.toLowerCase().includes(keyword) ||
+        c.family.toLowerCase().includes(keyword) ||
+        c.tags?.some((t) => t.includes(keyword))
+    );
+  }
+
+  // Room-based relevant families
+  const roomFamilyMap = {
+    "Bedroom":     ["blue", "pink", "purple", "green"],
+    "Living Room": ["beige", "cream", "green", "blue", "grey"],
+    "Kitchen":     ["white", "cream", "green", "yellow"],
+    "Bathroom":    ["blue", "green", "grey", "white"],
+    "Office":      ["grey", "blue", "white", "green"],
+    "Exterior":    ["white", "beige", "brown", "grey", "red"],
+  };
+  const targetFamilies = roomFamilyMap[room] || ["blue", "green", "beige"];
+  const roomColors = colors.filter((c) => targetFamilies.includes(c.family));
+
+  // Concern-based additions
+  let concernColors = [];
+  if (concerns?.includes("Kids that may stain walls")) {
+    concernColors = colors.filter((c) =>
+      ["brown", "grey", "green"].includes(c.family)
+    );
+  }
+  if (concerns?.includes("Little light in the room")) {
+    concernColors = [
+      ...concernColors,
+      ...colors.filter((c) => c.tags?.includes("lighter") || c.family === "white"),
+    ];
+  }
+
+  // Merge all, deduplicate, limit to 20
+  const merged = [
+    ...neutrals,
+    ...preferredFamily,
+    ...roomColors,
+    ...concernColors,
+  ];
+
+  const seen = new Set();
+  const unique = merged.filter((c) => {
+    if (seen.has(c.code)) return false;
+    seen.add(c.code);
+    return true;
+  });
+
+  // Return max 20 colors so the prompt stays short
+  return unique.slice(0, 20);
 }
