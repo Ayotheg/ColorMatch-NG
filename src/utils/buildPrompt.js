@@ -2,79 +2,79 @@ import { buildColorListForPrompt } from "../data/colors";
 
 /**
  * buildPrompt.js
- * Turns the quiz answers from QuizContext into a structured AI prompt
- * that OpenRouter can understand and respond to correctly.
- *
- * @param {Object} quizState - the full state object from QuizContext
- * @returns {{ systemPrompt: string, userPrompt: string }}
+ * Builds the AI prompt from quiz answers.
+ * The system prompt is very strict about JSON-only output
+ * so any model — Llama, DeepSeek, Mistral, Qwen — returns
+ * the same consistent shape.
  */
 export function buildPrompt(quizState) {
-  const { room, who, colorInMind, hasColorInMind, matching, matchingColor, paintType, concerns } = quizState;
+  const {
+    room,
+    who,
+    colorInMind,
+    hasColorInMind,
+    matching,
+    matchingColor,
+    paintType,
+    concerns,
+  } = quizState;
 
-  // Build the available colors list based on what paint type they chose
-  // so the AI only suggests colors actually available in the shop
-  const normalizedPaintType = (paintType || "emulsion").toLowerCase();
-  const availableColors = buildColorListForPrompt(normalizedPaintType);
+  const type = (paintType || "emulsion").toLowerCase();
+  const availableColors = buildColorListForPrompt(type);
 
+  // ─── SYSTEM PROMPT ────────────────────────────────────────
+  // Extremely strict — JSON only, no exceptions
+  const systemPrompt = `You are a Nigerian paint shop color expert. You know the Prestige Paint Gloss & Emulsion range and the Prestige Flex & Textured Finish (Texcoat) range sold in Nigerian paint shops.
 
-  // ─── SYSTEM PROMPT ───────────────────────────────────────────
-  // This tells the AI who it is and how to behave
-  const systemPrompt = `You are a friendly and knowledgeable Nigerian paint shop color expert. 
-You have deep knowledge of the Prestige Paint Gloss & Emulsion range and the Prestige Flex & Textured Finish (Texcoat) range sold in Nigerian paint shops.
+YOUR ONLY JOB: Return a single valid JSON object. Nothing else.
+- Do NOT write any text before the JSON
+- Do NOT write any text after the JSON
+- Do NOT use markdown, code blocks, or backticks
+- Do NOT explain anything outside the JSON
+- Start your response with { and end with }
 
-You understand Nigerian home aesthetics, the Nigerian climate, and everyday Nigerian lifestyles.
-You always suggest colors that are realistic, practical, and actually available in Nigerian paint shops.
+RULES:
+- Ceiling in Nigerian homes is ALWAYS Brilliant White — never suggest otherwise
+- Only suggest colors from the list the user provides
+- Keep the reason warm, simple, and in plain English any Nigerian customer understands
+- Maximum 2 pairings`;
 
-IMPORTANT RULES YOU MUST FOLLOW:
-- The ceiling color in Nigerian homes is ALWAYS Brilliant White — never suggest any other ceiling color.
-- Only suggest colors from the available color list provided in the user message.
-- Always return your response as a valid JSON object — no extra text, no markdown, no explanation outside the JSON.
-- Your reason should be warm, simple, and easy for a non-designer Nigerian customer to understand.
-- If the paint type is Texcoat, it is used for exterior walls only and in one color — do not suggest pairings for different walls, just suggest complementary trim or gate colors.
-- If the paint type is Gloss, it is typically used in two colors — suggest one base and one bold accent color.`;
+  // ─── USER PROMPT ──────────────────────────────────────────
+  const userPrompt = `Nigerian paint shop customer details:
+Room: ${room || "Not specified"}
+For: ${who || "Not specified"}  
+Paint type: ${paintType || "Emulsion"}
+Color in mind: ${hasColorInMind ? colorInMind : "No preference"}
+Needs to match: ${matching?.length > 0 ? matching.join(", ") : "Nothing"}
+${matchingColor ? `Match color (hex): ${matchingColor}` : ""}
+Concerns: ${concerns?.length > 0 ? concerns.join(", ") : "None"}
 
-  // ─── USER PROMPT ─────────────────────────────────────────────
-  // This is the actual customer data sent to the AI
-  const userPrompt = `A customer in a Nigerian paint shop needs color advice. Here are their details:
+Available colors: ${availableColors}
 
-ROOM TYPE: ${room || "Not specified"}
-THIS ROOM IS FOR: ${who || "Not specified"}
-PAINT FINISH THEY WANT: ${paintType ? paintType.toUpperCase() : "Emulsion"}
-COLOR IN MIND: ${hasColorInMind ? colorInMind : "No preference — please suggest based on their other answers"}
-NEEDS TO MATCH: ${matching.length > 0 ? matching.join(", ") : "Nothing specific"}
-${matchingColor ? `COLOR OF WHAT THEY ARE MATCHING (as hex): ${matchingColor}` : ""}
-SPECIAL CONCERNS: ${concerns.length > 0 ? concerns.join(", ") : "None"}
-
-AVAILABLE COLORS IN THE SHOP FOR ${(paintType || "emulsion").toUpperCase()}:
-${availableColors}
-
-Based on all of the above, please respond with ONLY a valid JSON object in exactly this format:
-
+Return ONLY this JSON, nothing else, no markdown:
 {
   "primary": {
-    "name": "Color Name",
-    "code": "Color Code",
+    "name": "exact color name from list",
+    "code": "exact code from list",
     "hex": "#hexcode",
-    "use": "Where to use this color e.g. Main walls"
+    "use": "Main walls"
   },
   "pairings": [
     {
-      "name": "Color Name",
-      "code": "Color Code",
+      "name": "exact color name",
+      "code": "exact code",
       "hex": "#hexcode",
-      "use": "Where to use this color e.g. Ceiling"
+      "use": "Ceiling"
     },
     {
-      "name": "Color Name",
-      "code": "Color Code",
+      "name": "exact color name",
+      "code": "exact code",
       "hex": "#hexcode",
-      "use": "Where to use this color e.g. Trim and doors"
+      "use": "Accent wall"
     }
   ],
-  "reason": "A warm, friendly 2-3 sentence explanation of why these colors work for this customer. Written in plain English that any Nigerian customer can understand."
-}
-
-REMINDER: Ceiling is always Brilliant White. Only use colors from the available list above.`;
+  "reason": "2 sentence warm explanation for a Nigerian customer"
+}`;
 
   return { systemPrompt, userPrompt };
 }
