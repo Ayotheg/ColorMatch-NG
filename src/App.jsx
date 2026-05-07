@@ -5,7 +5,6 @@ import { NavbarProvider } from './context/NavbarContext';
 import Welcome from './screens/Welcome';
 import Loading from './screens/Loading';
 import Results from './screens/Results';
-import RoomType from './steps/RoomType';
 import Step1Room from './steps/Step1Room';
 import Step2WhoIsIt from './steps/Step2WhoIsIt';
 import Step3ColorInMind from './steps/Step3ColorInMind';

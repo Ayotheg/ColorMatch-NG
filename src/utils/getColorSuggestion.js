@@ -1,26 +1,30 @@
 import { buildPrompt } from "./buildPrompt";
 
-// Free models to try in order — if one fails, we try the next
+// Model list — openrouter/free auto-picks any available free model.
+// The specific models below are confirmed working free models as of May 2026.
+// Order matters — first one that works wins.
 const FREE_MODELS = [
-  "meta-llama/llama-3.3-70b-instruct:free",
-  "mistralai/mistral-7b-instruct:free",
-  "google/gemma-3-4b-it:free",
+  "openrouter/free",                              // Auto-picks best available free model
+  "meta-llama/llama-3.3-70b-instruct:free",       // Llama 3.3 — very capable
+  "deepseek/deepseek-chat-v3-0324:free",          // DeepSeek V3 — strong reasoning
+  "mistralai/mistral-small-3.1-24b-instruct:free",// Mistral Small 3.1
+  "qwen/qwen3-8b:free",                           // Qwen3 8B — lightweight fallback
 ];
 
 /**
  * getColorSuggestion.js
- * Sends the quiz answers to OpenRouter and returns AI color suggestions.
- * Tries multiple free models in case one is down or overloaded.
+ * Sends quiz answers to OpenRouter and returns AI color suggestions.
+ * Tries multiple free models in order until one succeeds.
  *
- * @param {Object} quizState - the full state object from QuizContext
- * @returns {Promise<Object>} - the parsed color suggestion result
+ * @param {Object} quizState - full state object from QuizContext
+ * @returns {Promise<Object>} - parsed color suggestion result
  */
 export async function getColorSuggestion(quizState) {
   const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
 
   if (!apiKey) {
     throw new Error(
-      "OpenRouter API key is missing. Add VITE_OPENROUTER_API_KEY to your .env file."
+      "OpenRouter API key is missing. Add VITE_OPENROUTER_API_KEY to your .env file and restart the dev server."
     );
   }
 
@@ -28,10 +32,9 @@ export async function getColorSuggestion(quizState) {
 
   let lastError = null;
 
-  // Try each model in order until one works
   for (const model of FREE_MODELS) {
     try {
-      console.log(`Trying model: ${model}`);
+      console.log(`[ColorMatch] Trying model: ${model}`);
 
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -54,36 +57,41 @@ export async function getColorSuggestion(quizState) {
 
       const data = await response.json();
 
-      // Catch provider-level errors (model down, overloaded etc.)
-      if (!response.ok || data.error) {
-        const errMsg = data?.error?.message || `HTTP ${response.status}`;
-        console.warn(`Model ${model} failed: ${errMsg}`);
-        lastError = new Error(errMsg);
-        continue; // try next model
+      // OpenRouter sometimes returns 200 but with an error inside data
+      if (data.error) {
+        const msg = data.error?.message || JSON.stringify(data.error);
+        console.warn(`[ColorMatch] Model ${model} error: ${msg}`);
+        lastError = new Error(msg);
+        continue;
       }
 
-      // Extract text content
-      const rawText = data?.choices?.[0]?.message?.content;
+      if (!response.ok) {
+        console.warn(`[ColorMatch] Model ${model} HTTP ${response.status}`);
+        lastError = new Error(`HTTP ${response.status}`);
+        continue;
+      }
 
+      // Extract content
+      const rawText = data?.choices?.[0]?.message?.content;
       if (!rawText) {
-        console.warn(`Model ${model} returned empty content`);
+        console.warn(`[ColorMatch] Model ${model} returned empty content`);
         lastError = new Error("Empty response from AI");
         continue;
       }
 
-      console.log("Raw AI response:", rawText);
+      console.log(`[ColorMatch] Raw response from ${model}:`, rawText);
 
-      // Parse JSON — strip markdown fences if present
+      // Strip markdown fences if AI added them despite instructions
       const cleaned = rawText
         .replace(/```json/gi, "")
         .replace(/```/g, "")
         .trim();
 
-      // Find the JSON object inside the response even if there's extra text
+      // Extract the JSON object even if the model added extra text around it
       const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
-        console.warn(`Model ${model} returned non-JSON response`);
-        lastError = new Error("AI returned unexpected format");
+        console.warn(`[ColorMatch] Model ${model} — no JSON found in response`);
+        lastError = new Error("AI returned unexpected format. Please try again.");
         continue;
       }
 
@@ -91,31 +99,31 @@ export async function getColorSuggestion(quizState) {
       try {
         result = JSON.parse(jsonMatch[0]);
       } catch {
-        console.warn(`Model ${model} — JSON parse failed`);
-        lastError = new Error("Could not parse AI response");
+        console.warn(`[ColorMatch] Model ${model} — JSON parse failed`);
+        lastError = new Error("Could not read AI response. Please try again.");
         continue;
       }
 
-      // Validate shape
+      // Validate the shape we need
       if (!result.primary || !result.pairings || !result.reason) {
-        console.warn(`Model ${model} — incomplete result shape`, result);
-        lastError = new Error("Incomplete color suggestion received");
+        console.warn(`[ColorMatch] Model ${model} — missing fields in result`, result);
+        lastError = new Error("Incomplete suggestion from AI. Please try again.");
         continue;
       }
 
-      // Success
-      console.log(`Success with model: ${model}`, result);
+      // All good
+      console.log(`[ColorMatch] ✅ Success with model: ${model}`);
       return result;
 
     } catch (err) {
-      console.warn(`Model ${model} threw an error:`, err.message);
+      console.warn(`[ColorMatch] Model ${model} threw:`, err.message);
       lastError = err;
       continue;
     }
   }
 
-  // All models failed — throw the last known error
+  // Every model failed
   throw new Error(
-    lastError?.message || "All AI models are currently unavailable. Please try again."
+    lastError?.message || "Could not get a color suggestion right now. Please check your internet and try again."
   );
 }
