@@ -2,7 +2,7 @@ export const Data = [
     {
         title:"Family with young children",
         body:"Focus on wipeable, scrub-resistant finishes",
-        img:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=300&fit=crop"
+        img:"https://i.pinimg.com/736x/8a/95/81/8a958166e721e2bfc01b2f378341aee1.jpg?w=400&h=300&fit=crop"
     },
     {
         title:"Adults Only",

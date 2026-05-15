@@ -18,7 +18,7 @@ export default function Step1Room() {
     { id: "Kitchen", label: "Kitchen", icon: <CookingPot />, color: "text-blue-600", bgColor: "bg-slate-50" },
     { id: "Bathroom", label: "Bathroom", icon: <Bath />, color: "text-amber-950", bgColor: "bg-white" },
     { id: "Office/ School", label: "Office/ School", icon: <Building2 />, color: "text-gray-700", bgColor: "bg-white", fullWidth: true, subtitle: "Professional Workspaces" },
-    { id: "Exterior", label: "Exterior", icon: <Trees />, color: "text-white", bgColor: "bg-white", fullWidth: true, subtitle: "Outdoor Spaces", image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=300&fit=crop" },
+    { id: "Exterior", label: "Exterior", icon: <Trees />, color: "text-white", bgColor: "bg-white", fullWidth: true, subtitle: "Outdoor Spaces", image: "https://i.pinimg.com/736x/e0/90/1f/e0901fce5aa5c561965db8d07c519a71.jpg?w=500&h=300&fit=crop" },
   ];
 
   useEffect(() => {
